@@ -1,0 +1,361 @@
+﻿<Window x:Class="StatCardApp.F2Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        xmlns:localConverter="clr-namespace:StatCardApp.Convertors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Форма Ф-2" Height="1080" Width="1920" WindowState="Maximized">
+    <Window.Resources>
+        <localConverter:KeyValueConverter x:Key="KeyValueConverter" />
+        <localConverter:DateConverter x:Key="DateConverter" />
+        <localConverter:ValueToSizeConverter x:Key="ValueToSizeConverter" />
+        <localConverter:QualificationConverter x:Key="QualificationConverter" />
+        <localConverter:NumberConverter x:Key="NumberConverter" />
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource TBMainStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontSize" Value="10" />
+        </Style>
+
+        <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignDatePicker}">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="BorderBrush" Value="OrangeRed" />
+            <Setter Property="Background" Value="Red" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Padding" Value="2,2,2,2" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontFamily" Value="Times New Roman" />
+        </Style>
+
+        <Style TargetType="localControl:FiltredComboBox" BasedOn="{StaticResource FilterCBStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="10, 0, 10, 0" />
+            <Setter Property="Margin" Value="10,0,0,10" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="GhostWhite" />
+                            <Setter Property="CornerRadius" Value="5" />
+                            <Setter Property="Margin" Value="0,0,0,20" />
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="0.51"/>
+                            <Setter Property="Padding" Value="0,0,10,0"/>
+                        </Style>
+                        <Style TargetType="Border" x:Key="DatePickerBorder">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="CornerRadius" Value="0" />
+                        </Style>
+                    </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <TabControl  Grid.Row="0">
+            <TabItem Header="Карточка Ф-2" >
+                <ScrollViewer>
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="191*" />
+                            <ColumnDefinition Width="445*"/>
+                            <ColumnDefinition Width="635*" />
+                            <ColumnDefinition Width="635*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Grid.ColumnSpan="2">
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Учесть" />
+                                    <localControl:FiltredComboBox ErrorChanged="CBErrorHandler" ItemsSource="{Binding data.accounting}" SelectedValue ="{Binding F2.Accounting, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Лицо" />
+                                    <localControl:FiltredComboBox x:Name="SuspectCB" ItemsSource="{Binding Suspects}" SelectedIndex="{Binding CurrentSuspect, UpdateSourceTrigger=PropertyChanged}"
+                                           SelectedValue="{Binding F2.SuspectNumber}" ErrorChanged="CBErrorHandler">
+                                        <localControl:FiltredComboBox.Style>
+                                            <Style TargetType="localControl:FiltredComboBox" BasedOn="{StaticResource FilterCBStyle}">
+                                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding F2.IsExported}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </localControl:FiltredComboBox.Style>
+                                    </localControl:FiltredComboBox>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Преступления, совершенные лицом" />
+                                    <Border Background="white" BorderThickness="0">
+                                        <ListView ItemsSource="{Binding F2.Crimes, UpdateSourceTrigger=PropertyChanged}"  HorizontalContentAlignment="Center">
+                                            <ListView.Resources>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Width" Value="Auto" />
+                                                </Style>
+                                            </ListView.Resources>
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn  Header="Номер&#10;преступления" DisplayMemberBinding="{Binding Path=CrimeNumber, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+                                                    <GridViewColumn  Header="Статья">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBox Text="{Binding Path=Qualification.Article, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn  Header="Знак">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBox Text="{Binding Path=Qualification.Sign, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn  Header="Часть">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBox Text="{Binding Path=Qualification.Part, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn  Header="Пункты">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBox Text="{Binding Path=Qualification.Paragraph, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Complicity, Converter={StaticResource KeyValueConverter}, ConverterParameter=complicityKind}"
+                                                            Header="Вид&#10;соучастия" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Situation, Converter={StaticResource KeyValueConverter}, ConverterParameter=condition}"
+                                                            Header="Состояние" />
+                                                    <GridViewColumn Header="Сумма судебного штрафа">
+                                                        <GridViewColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <TextBox Text="{Binding Path=JudicialFine, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
+                                                     KeyDown="IntTextValidate" Validation.Error="TextBox_Error" />
+                                                            </DataTemplate>
+                                                        </GridViewColumn.CellTemplate>
+                                                    </GridViewColumn>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Условное наименование воинской части, учреждения, организации" />
+                                    <TextBox Text="{Binding F2.MilitaryUnit, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Наименование военной прокуратуры округа, флота, вида войск, за ко-торой числится настоящее лицо
+                               (заполняется если часть не поднадзорна дан-ной ВП, а копия карточки подлежит направлению в другую ВП для учета)" />
+
+                                    <TextBox  Text="{Binding F2.ListedProsecutorOffice, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Дата направления карточки прокурору" />
+                                    <Border Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker  SelectedDate="{Binding F2.TransCardDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Дата предъявления первичного обвинения" />
+                                    <Border  Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker SelectedDate="{Binding F2.AccusationDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Вид и дата применения меры процессуального принуждения" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.coerciveMeasure}" SelectedValue="{Binding F2.CoerciveMeasureCode, UpdateSourceTrigger=PropertyChanged}"
+                                                           materialDesign:HintAssist.Hint="Вид применения меры процессуального принуждения" ErrorChanged="CBErrorHandler" />
+                                    <Border  Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker materialDesign:HintAssist.Hint="Дата применения меры процессуального принуждения"
+                                                    SelectedDate="{Binding F2.CoerciveMeasureDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Лицо, совершившее преступление, ранее привлекалось к уголовной ответственности (сколько раз)" />
+                                    <TextBox Text="{Binding F2.CriminalCount, Converter={StaticResource NumberConverter}, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" KeyDown="IntTextValidate" Validation.Error="TextBox_Error" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Ст. УК РФ (РСФСР), по которым лицо ранее привлекалось к ответственности" />
+                                    <TextBox Text="{Binding F2.PastArticles, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Судимость" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.conviction}" SelectedValue="{Binding F2.Conviction, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Рецидив преступления" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.crimeRelapse}" SelectedValue="{Binding F2.CrimeRelapse, UpdateSourceTrigger=PropertyChanged}"
+                                           ErrorChanged="CBErrorHandler" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Ранее совершалось " />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.earlyCases}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding F2.EarlyCases, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="На момент совершения преступления лицо:" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.personState}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding F2.PersonState, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Преступление совершено лицом" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.personSituation}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding F2.PersonSituation, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Решение, принятое в отношении лица:" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.UPKarticle}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding F2.OnPersonDecision, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3">
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Причины прекращения уголовного преследования лица за отсутствием состава преступления" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.caseStopReason}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding F2.CaseStopReason, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Наложен арест на имущество на сумму (в рублях)" />
+                                    <TextBox Text="{Binding F2.OwnArrest, Converter={StaticResource NumberConverter}, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" KeyDown="IntTextValidate" Validation.Error="TextBox_Error" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Информация о ведущих расследование лицах">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Данные лица, ведущего расследование уголовного дела (разрешивщего материалы) и дата заполнения карточки:" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Positions}" SelectedValue="{Binding RegData.User.Position, UpdateSourceTrigger=PropertyChanged}" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.User.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.User.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <RadioButton Style="{StaticResource SCRadioButton}" GroupName="Director" Content="Руководитель следственного отдела" IsChecked="True" Margin="0,0,10,0"/>
+                                    <RadioButton Style="{StaticResource SCRadioButton}" GroupName="Director" Content="ВрИО руководителя следственного отдела" IsChecked="{Binding F2.DirectorIsTemporary, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.VSOchef.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.VSOchef.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Военный прокурор:" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.MilitaryProsecutor.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.MilitaryProsecutor.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="1">
+            <Button x:Name="SaveButton" Content="Сохранить" Command="{Binding SaveCard}" />
+            <Button Content="Изменить" Command="{Binding ChangeCard}" />
+            <Button x:Name="ViewDocBut" Content="Просмотреть документ" Click="Button_Click_ViewDocument" IsEnabled="True" />
+            <Button Content="Экспорт" Command="{Binding ExportCard}" />
+            <Button Content="Отправить на сервер" Command="{Binding SendToServer}" />
+        </StackPanel>
+    </Grid>
+</Window>

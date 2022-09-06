@@ -1,0 +1,255 @@
+﻿<Window x:Class="StatCardApp.DocumentViewerF31"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        xmlns:localConverter="clr-namespace:StatCardApp.Convertors"
+        mc:Ignorable="d"
+        Title="Ф-3.1 Документ" Height="1500" Width="23 cm" WindowState="Maximized">
+    <Window.Resources>
+        <localConverter:KeyValueConverter x:Key="KeyValueConverter" />
+        <localConverter:MonthConverter x:Key="MonthConverter" />
+        <localConverter:QualificationConverter x:Key="QualificationConverter"/>
+        <localControl:AutoSizeTextBox x:Key="AutoSizeTextBox" />
+        <localConverter:DateConverter x:Key="DateConverter"/>
+        
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Times New Roman" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="Black" />
+            </Style>
+        </Grid.Resources>
+        <FlowDocumentScrollViewer Name="FlowDoc" Width="20.25 cm" HorizontalAlignment="Center" Grid.Row="0">
+            <FlowDocument ColumnWidth="23 cm" Name ="docViewer">
+                <Paragraph>
+                    <StackPanel>
+                        <Border BorderThickness="1" BorderBrush="Black"  Width="18.83 cm">
+                            <StackPanel>
+                                <Border Padding="1" BorderThickness="1"  Margin="10">
+                                    <Border BorderThickness="1" Margin="1" Padding="5">
+                                        <StackPanel>
+                                            <TextBlock FontFamily="Times New Roman" FontSize="0.138 in">
+                                                        <Italic>Заполняется в органе,
+                                                            <Bold>направляющем</Bold> уголовное дело по подследственности
+                                                        </Italic>
+                                            </TextBlock>
+                                            <DockPanel>
+                                                <StackPanel Margin="100,0,0,0" Width="446">
+                                                    <TextBlock FontSize="0.166 in" FontFamily="Times New Roman" FontWeight="Bold" HorizontalAlignment="Center">
+                                                        КОРЕШОК  ТАЛОНА – УВЕДОМЛЕНИЯ
+                                                    </TextBlock>
+                                                    <TextBlock FontSize="0.166 in" FontFamily="Times New Roman" HorizontalAlignment="Center">
+                                                        о регистрации уголовного дела по новому месту расследования
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <TextBlock Margin="10,0,0,0" FontFamily="Times New Roman" FontSize="0.361 in">
+                                                    Ф-3.1
+                                                </TextBlock>
+                                            </DockPanel>
+                                            <DockPanel HorizontalAlignment="Center" Margin="0,20,0,0">
+                                                <TextBlock FontSize="0.236 in" FontFamily="Times New Roman" Margin="0,0,10,0" FontWeight="Bold">№</TextBlock>
+                                                <TextBlock><Underline><TextBlock Text="{Binding FullCaseNumber}" FontSize="0.236 in" FontFamily="Times New Roman" /></Underline></TextBlock>
+                                            </DockPanel>
+                                            <TextBlock FontFamily="Times New Roman" FontSize="0.125 in" HorizontalAlignment="Center" >Номер направляемого уголовного дела</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontFamily="Arial" FontSize="0.180 in" ><Bold><Italic>Орган, производивший расследование</Italic></Bold></TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Margin="5,0,0,0">
+                                                    <TextBlock  FontFamily="Arial" FontSize="0.180 in" Text="{Binding RegData.DepartmentCode, Converter={StaticResource KeyValueConverter}, ConverterParameter=Departments}" />
+                                                </Border>
+                                            </StackPanel>
+                                            <TextBlock Margin="210,0,0,0" FontSize="0.125 in">наименование органа  которому  направлено дело  по подследственности</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontFamily="Arial" FontSize="0.180 in" ><Bold><Italic>Кому направлено дело</Italic></Bold></TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Margin="5,0,0,0">
+                                                    <TextBlock  FontFamily="Arial" FontSize="0.180 in" Text="{Binding F31.CaseDestination}" />
+                                                </Border>
+                                            </StackPanel>
+                                            <TextBlock Margin="210,0,0,0" FontSize="0.125 in">наименование органа, которому  направлено дело  по подследственности</TextBlock>
+                                            <TextBlock FontFamily="Arial" FontSize="0.125 in" Margin="0,10,0,0">должность руководителя следственного органа, направившего дело</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Margin="5,0,0,0" Height="20" VerticalAlignment="Top">
+                                                    <TextBlock  FontFamily="Arial" FontSize="0.194 in" Text="{Binding RegData.VSOchef.Position, Converter={StaticResource KeyValueConverter}, ConverterParameter=Positions}" />
+                                                </Border>
+                                                <StackPanel Margin="300,5,0,0">
+                                                    <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="100" Margin="0,20,0,0" />
+                                                    <TextBlock HorizontalAlignment="Center" FontSize="0.125 in">подпись</TextBlock>
+                                                </StackPanel>
+                                                <StackPanel  Margin="50,0,20,0">
+                                                    <Border BorderThickness="0,0,0,1" BorderBrush="Black" Height="20" VerticalAlignment="Top">
+                                                        <TextBlock  FontFamily="Arial" FontSize="0.194 in" Text="{Binding RegData.VSOchef.FIO}" />
+                                                    </Border>
+                                                    <TextBlock FontSize="0.125 in" Margin="0,5,0,0">фамилия</TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                                <StackPanel.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="FontSize" Value="0.166 in" />
+                                                        <Setter Property="FontFamily" Value="Times New Roman" />
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                                <TextBlock>исх. №</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="80">
+                                                    <TextBlock Margin="10,0,0,0" Text="{Binding F31.OutgoingNumber}" FontSize="0.166 in" />
+                                                </Border>
+                                                <TextBlock Margin="30,0,0,0">"</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="50">
+                                                    <TextBlock Text="{Binding F31.Date.Day}" FontSize="0.166 in" HorizontalAlignment="Center" />
+                                                </Border>
+                                                <TextBlock>"</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="170">
+                                                    <TextBlock Text="{Binding F31.Date.Month, Converter={StaticResource MonthConverter}}" FontSize="0.166 in" HorizontalAlignment="Center" />
+                                                </Border>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="60" Margin="15,0,0,0">
+                                                    <TextBlock Text="{Binding F31.Date.Year}" FontSize="0.166 in" HorizontalAlignment="Center" />
+                                                </Border>
+                                                <TextBlock>г</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Border>
+                                <Border Padding="1" BorderThickness="1" Margin="10">
+                                    <Border BorderThickness="1" Padding="5">
+                                        <StackPanel>
+                                            <TextBlock FontSize="0.138 in"><Italic>Заполняется в органе <Bold>получившем</Bold> уголовное дело по подследственности</Italic></TextBlock>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
+                                                <TextBlock FontWeight="Bold" FontSize="0.18 in">Новый номер дела</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="300" />
+                                            </StackPanel>
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="Black" Height="30" />
+                                            <TextBlock HorizontalAlignment="Center" FontSize="0.097 in" Margin="0,0,0,10">должность, подпись, фамилия</TextBlock>
+                                        </StackPanel>
+                                    </Border>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                        <TextBlock HorizontalAlignment="Center">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   л и н и я      о т р е з а   - - - - - - - - - - - - - - -  - - - - - - - - - - - - - -</TextBlock>
+                        <Border BorderThickness="1" BorderBrush="Black"  Width="18.83 cm">
+                            <StackPanel>
+                                <Border Padding="1" BorderThickness="1"  Margin="10">
+                                    <Border BorderThickness="1" Margin="1" Padding="10">
+                                        <StackPanel>
+                                            <TextBlock HorizontalAlignment="Right" Margin="0,0,10,0" FontSize="0.361 in">Ф-3.1</TextBlock>
+                                            <TextBlock HorizontalAlignment="Center" FontWeight="Bold" LineStackingStrategy="BlockLineHeight" LineHeight="1">Т А Л О Н – У В Е Д О М Л Е Н И Е</TextBlock>
+                                            <TextBlock HorizontalAlignment="Center" FontSize="0.18 in">о регистрации уголовного дела по новому месту  расследования</TextBlock>
+                                            <DockPanel HorizontalAlignment="Center" Margin="0,20,0,0">
+                                                <TextBlock FontSize="0.236 in" FontFamily="Times New Roman" Margin="0,0,10,0" FontWeight="Bold">№</TextBlock>
+                                                <TextBlock><Underline><TextBlock Text="{Binding FullCaseNumber}" FontSize="0.236 in" FontFamily="Times New Roman" /></Underline></TextBlock>
+                                            </DockPanel>
+                                            <TextBlock FontFamily="Times New Roman" FontSize="0.125 in" HorizontalAlignment="Center" >Номер направляемого уголовного дела</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontFamily="Arial" FontSize="0.180 in" ><Bold><Italic>Орган, производивший расследование</Italic></Bold></TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Margin="5,0,0,0">
+                                                    <TextBlock  FontFamily="Arial" FontSize="0.180 in" Text="{Binding RegData.DepartmentCode, Converter={StaticResource KeyValueConverter}, ConverterParameter=Departments}" />
+                                                </Border>
+                                            </StackPanel>
+                                            <TextBlock Margin="210,0,0,0" FontSize="0.125 in" FontFamily="Arial">(наименование, почтовый адрес)</TextBlock>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontFamily="Arial" FontSize="0.180 in" ><Bold><Italic>Орган, принявший уголовное дело </Italic></Bold></TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Margin="5,0,0,0" Width="300" />
+                                            </StackPanel>
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="Black" Height="25" Width="600" HorizontalAlignment="Left" />
+                                            <TextBlock HorizontalAlignment="Center" FontSize="0.138 in" Margin="0,0,0,10" LineHeight="10" LineStackingStrategy="BlockLineHeight">
+                                                (наименование  органа, куда уголовное дело поступило по подследственности)</TextBlock>
+
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                <TextBlock>№</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Height="15" Width="330" />
+                                            </StackPanel>
+                                            <TextBlock HorizontalAlignment="Center" FontSize="0.138 in" Margin="0,0,0,10" LineHeight="10" LineStackingStrategy="BlockLineHeight">
+                                                Номер уголовного дела по новому месту расследования</TextBlock>
+
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="Black" Height="15" Width="500" />
+                                            <TextBlock HorizontalAlignment="Center" FontSize="0.138 in" Margin="0,0,0,10" LineHeight="10" LineStackingStrategy="BlockLineHeight">
+                                                (наименование  органа, куда уголовное дело поступило по подследственности)</TextBlock>
+
+                                            <Border BorderThickness="0,0,0,1" BorderBrush="Black" Height="15" Width="330" />
+                                            <StackPanel Orientation="Horizontal" Margin="270,0,0,0">
+                                                <TextBlock HorizontalAlignment="Center" FontSize="0.138 in" Margin="0,0,0,10" LineHeight="15" LineStackingStrategy="BlockLineHeight">
+                                                ( подпись,     фамилия)</TextBlock>
+                                                <TextBlock Margin="110,0,0,0" FontSize="0.138 in">М.П.</TextBlock>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" Margin="0,10,0,20" HorizontalAlignment="Center">
+                                                <StackPanel.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="FontSize" Value="0.166 in" />
+                                                        <Setter Property="FontFamily" Value="Times New Roman" />
+                                                    </Style>
+                                                </StackPanel.Resources>
+                                                <TextBlock>исх. №</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="80" />
+                                                <TextBlock Margin="30,0,0,0">"</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="50" />
+                                                <TextBlock>"</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="170" />
+                                                <TextBlock Margin="15,0,0,0">20</TextBlock>
+                                                <Border BorderThickness="0,0,0,1" BorderBrush="Black" Width="30" />
+                                                <TextBlock>г</TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Border BorderBrush="Black" BorderThickness="1,1,1,0" Width="700">
+                            <StackPanel Orientation="Horizontal" x:Name="st1">
+                                <DataGrid ItemsSource="{Binding F31.CrimeTable}" GridLinesVisibility="All" 
+                                   CellStyle="{StaticResource Body_Content_DataGrid_Centering}" ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№ прест-я" Binding="{Binding Path=CrimeNumber}" Width="50"/>
+                                        <DataGridTextColumn Header="Квалификация" Binding="{Binding Path=Qualification, Converter={StaticResource QualificationConverter}}" Width="200"/>
+                                        <DataGridTextColumn Header="Дата учёта" Binding="{Binding Path=RegistrationDate, Converter={StaticResource DateConverter}}" Width="100"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <DataGrid ItemsSource="{Binding F31.CrimeTable2}" GridLinesVisibility="All" 
+                                   CellStyle="{StaticResource Body_Content_DataGrid_Centering}" ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№ прест-я" Binding="{Binding Path=CrimeNumber}" Width="50"/>
+                                        <DataGridTextColumn Header="Квалификация" Binding="{Binding Path=Qualification, Converter={StaticResource QualificationConverter}}" Width="200"/>
+                                        <DataGridTextColumn Header="Дата учёта" Binding="{Binding Path=RegistrationDate, Converter={StaticResource DateConverter}}" Width="100"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </StackPanel>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="1,0,1,1" Width="700">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Секретарь"/>
+                                <StackPanel>
+                                    <TextBlock Text="______________________________"/>
+                                    <TextBlock Text="подпись"/>
+                                </StackPanel>
+
+                                <StackPanel>
+                                    <TextBlock Text="/ ________________ /"/>
+                                    <TextBlock Text="фамилия"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Row="1">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                    <Setter Property="FontSize" Value="0.111 in" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="Печать первой страницы" Height="30" Command="{Binding Commands.PrintFirstPage}" CommandParameter="{Binding ElementName=FlowDoc}"  Margin="10,0,10,0" />
+            <Button Content="Печать второй страницы"  Height="30" Command="{Binding Commands.PrintSecondPage}"  CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+            <Button Content="Полная печать"  Height="30" Command="{Binding Commands.PrintFullDocument}"  CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+            <Button Content="Настраиваемая печать" Height="30" Command="{Binding Commands.PrintWithDialog}" CommandParameter="{Binding ElementName=FlowDoc}"  Margin="10,0,10,0" />
+        </StackPanel>
+    </Grid>
+</Window>

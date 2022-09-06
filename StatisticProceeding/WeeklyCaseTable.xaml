@@ -1,0 +1,105 @@
+﻿<Window x:Class="StatisticProceeding.WeeklyCaseTable"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StatisticProceeding"
+        mc:Ignorable="d"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:b="clr-namespace:StatisticProceeding"
+        Title="WeeklyCaseTable" Height="800" Width="1600" WindowState="Maximized">
+    <Window.Resources>
+        <b:IgnoreMouseWheelBehavior x:Key="behavior"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Row="0">
+            <StackPanel Height="auto">
+                <ListView ItemsSource="{Binding CaseDescriptions}">
+                    <i:Interaction.Behaviors>
+                        <local:IgnoreMouseWheelBehavior />
+                    </i:Interaction.Behaviors>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="0.8"/>
+                            <Setter Property="Margin" Value="0,0,0,5"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="№ п/п">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding Path=pNum}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Номер дела">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding Path=CaseNumber}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Когда, кем возбуж.дено уголовное дело, ст. УК РФ">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding Path=CriminalProceedings}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Ф.И.О, в/зв, в/ч, подчиненность">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding Path=Suspects}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Обстоятельства преступления (в т.ч. последствия)">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox TextWrapping="Wrap" Width="300" MinHeight="300" Text="{Binding Path=CrimeInfo, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Когда, кем принято к производству">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding Path=CriminalProductions}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Сроки следствия">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding Path=InvestigationTerm}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Сроки стражи">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding Path=GuardTerm}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Планируемые следственные действия">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="300" MinHeight="300" TextWrapping="Wrap" Text="{Binding Path=InvestigationActions, UpdateSourceTrigger=PropertyChanged}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+        <Button Content="Сформировать файл" Click="FormWeeklyCaseTable" Grid.Row="1"/>
+
+    </Grid>
+</Window>

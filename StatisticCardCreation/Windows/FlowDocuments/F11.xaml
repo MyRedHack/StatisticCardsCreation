@@ -1,0 +1,721 @@
+﻿<Window x:Class="StatCardApp.DocumentViewerF11"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        xmlns:localConverter="clr-namespace:StatCardApp.Convertors"
+        mc:Ignorable="d"
+        Title="Ф-1.1" Width="850" Height="70 cm" BorderThickness="0" WindowState="Maximized">
+    <Window.Resources>
+        <localConverter:KeyValueConverter x:Key="KeyValueConverter" />
+        <localConverter:DateConverter x:Key="DateConverter" />
+        <localConverter:ValueToSizeConverter x:Key="ValueToSizeConverter" />
+        <localControl:AutoSizeTextBox x:Key="AutoSizeTextBox" />
+        
+        <Style x:Key="mainTable" TargetType="TableCell">
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="Black" />
+        </Style>
+
+        <Style TargetType="TableCell">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="0, 0.5, 0.5, 0" />
+            <Setter Property="Padding" Value="3,0,0,0" />
+        </Style>
+
+        <Style TargetType="Table">
+            <Setter Property="CellSpacing" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style TargetType="Paragraph">
+            <Setter Property="FontSize" Value="0.097 in" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style x:Key="ValueStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="0.194 in" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="LineStackingStrategy" Value="MaxHeight" />
+            <Setter Property="LineHeight" Value="12" />
+            <Setter Property="FontFamily" Value="Times New Roman" />
+        </Style>
+        <Style TargetType="DockPanel">
+            <Setter Property="Width" Value="670" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+            <Setter Property="LineHeight" Value="0.1 in" />
+            <Setter Property="Margin" Value="2,2,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+
+
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                <Setter Property="Width" Value="678" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <FlowDocumentScrollViewer Name="FlowDoc" Width="835"  HorizontalAlignment="Center" Grid.Row="0">
+            <FlowDocument ColumnWidth="23 cm" Name ="docViewer">
+                <!--#region Заголовок-->
+
+                <Paragraph TextAlignment="Center"  FontSize="0.2 in" FontFamily="Times New Roman" Margin="0,0,0,0">
+                    <StackPanel Orientation="Horizontal"  Height="58" HorizontalAlignment="Left" Width="743">
+                        <TextBlock LineStackingStrategy="MaxHeight" TextAlignment="Left" Width="57" FontSize="0.138 in" FontWeight="Bold" FontFamily="Arial">Ф-1.1</TextBlock>
+                        <StackPanel Width="573">
+                            <TextBlock LineStackingStrategy="MaxHeight" FontWeight="Bold" >Статистическая карточка</TextBlock>
+                            <TextBlock LineStackingStrategy="MaxHeight" LineHeight="14" FontSize="0.1805 in" Margin="0, 0, 0, 5" >о результатах расследования уголовного преступления</TextBlock>
+                        </StackPanel>
+                        <StackPanel Width="108">
+                            <TextBlock  FontSize="0.083 in">П р  и л о ж е н и е 1</TextBlock>
+                            <TextBlock LineStackingStrategy="MaxHeight" FontSize="0.416 in" FontWeight="Bold">Ф-1.1</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Paragraph>
+                <!--#endregion-->
+                <!--#region Таблица "учесть"-->
+
+                <Table BorderBrush="White" BorderThickness="0">
+                    <Table.Columns>
+                        <TableColumn Width="0.7*" />
+                        <TableColumn Width="14*" />
+                        <TableColumn Width="1.3*" />
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell Padding="4,4,0,0" BorderThickness="0">
+                                <Paragraph FontSize="0.1388 in" FontFamily="Arial">
+                                    <TextBlock>1</TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                            <!--#region Главная таблица-->
+                            <TableCell Style="{StaticResource mainTable}">
+                                <Paragraph  Margin="5" FontFamily="Arial">
+                                    <DockPanel Height="13">
+                                        <TextBlock Height="12" >Основная(1), дополнительная(2); изменить(9)</TextBlock>
+                                        <TextBlock TextAlignment="Right" Text="{Binding F11.Accounting}" FontSize="14" FontWeight="Bold"></TextBlock>
+                                    </DockPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <!--#endregion-->
+                            <TableCell  BorderThickness="0">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <TextBlock>1</TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <!--#endregion-->
+                <Paragraph Margin="45,5,0,1">
+                    <TextBlock FontSize="0.138 in" FontFamily="Times New Roman">
+                        <Bold FontSize="0.166 in">Раздел 1.</Bold> Заполняется работником ВП по ведению учетно-регистрационной работы
+                    </TextBlock>
+                </Paragraph>
+                <!--#region Таблица первого раздела-->
+
+                <Table>
+                    <Table.Columns>
+                        <TableColumn Width="0.7*" />
+                        <TableColumn Width="14*" />
+                        <TableColumn Width="1.3*" />
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <!--#region Cтили-->
+                        <!--#endregion-->
+                        <TableRow>
+                            <!--#region Столбец с пунктами-->
+                            <TableCell BorderBrush="White">
+                                <Paragraph  FontSize="0.1388 in" FontFamily="Arial">
+                                    <StackPanel>
+                                        <TextBlock Height="37">1.1</TextBlock>
+                                        <TextBlock Height="26">1.2</TextBlock>
+                                        <TextBlock Height="22">1.3</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <!--#endregion-->
+                            <!--#region Столбец с главной таблицей-->
+                            <TableCell Style="{StaticResource mainTable}">
+                                <Table>
+                                    <Table.Columns>
+                                        <TableColumn Width="1.5*" />
+                                        <TableColumn Width="3*" />
+                                        <TableColumn Width="3*" />
+                                    </Table.Columns>
+                                    <TableRowGroup>
+                                        <TableRow>
+                                            <TableCell BorderThickness="0, 0, 0.5, 0.5">
+                                                <Paragraph>
+                                                    <TextBlock Height="25" Width="132">
+                                                        Номер уголовного <Bold>Д</Bold>ела (<Bold>М</Bold>атериала, <Bold>И</Bold>нформации)
+                                                    </TextBlock>
+                                                </Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderThickness="0, 0, 0.5, 0.5">
+                                                <Paragraph FontFamily="Times New Roman">
+                                                    <TextBlock Margin="0,3,0,0" Width="270" Height="26">
+                                                        1 – дело,  2 – материал,   4 – выделенное из другого дела в отно-шении одного из соучастников
+                                                    </TextBlock>
+                                                </Paragraph>
+                                            </TableCell>
+                                            <TableCell BorderThickness="0, 0, 0.5, 0.5" Background="LightGray">
+                                                <Paragraph>
+                                                    <DockPanel Width="265">
+                                                        <TextBlock LineStackingStrategy="MaxHeight" Text="{Binding FullCaseNumber}" FontSize="0.25 in" FontFamily="Times New Roman" />
+                                                    </DockPanel>
+                                                </Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableRowGroup>
+                                </Table>
+                                <Table>
+                                    <TableRowGroup>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Paragraph>
+                                                    <StackPanel Orientation="Horizontal" Height="30" Width="670">
+                                                        <TextBlock Width="587">Дата направления карточки прокурору:</TextBlock>
+                                                        <StackPanel >
+                                                            <TextBlock Text="число     месяц     год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                            <TextBlock HorizontalAlignment="Center" Text="{Binding F11.TransCardDate, Converter={StaticResource DateConverter}, ConverterParameter=ShortYear}" Style="{StaticResource ValueStyle}" FontWeight="Normal" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>
+                                                <Paragraph>
+                                                    <DockPanel>
+                                                        <TextBlock Height="19">Дата учета данных карточки в ИПК "Преступность"</TextBlock>
+                                                        <TextBlock />
+                                                    </DockPanel>
+                                                </Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableRowGroup>
+                                </Table>
+                            </TableCell>
+                            <!--#endregion-->
+                            <!--#region Столбец с пунктами -->
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel>
+                                        <TextBlock Height="36">1.1</TextBlock>
+                                        <TextBlock Height="29">1.2</TextBlock>
+                                        <TextBlock Height="21">1.3</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <!--#endregion-->
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <!--#endregion-->
+
+                <Table>
+                    <Table.Columns>
+                        <TableColumn Width="0.7*" />
+                        <TableColumn Width="14*" />
+                        <TableColumn Width="1.3*" />
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <!--=============== ТАБЛИЦА РАЗДЕЛА 2 ПЕРВАЯ ===================-->
+                        <TableRow>
+                            <TableCell BorderThickness="0" />
+                            <TableCell BorderThickness="0" LineHeight="18" LineStackingStrategy="BlockLineHeight">
+                                <Paragraph>
+                                    <TextBlock FontSize="0.138 in" FontFamily="Times New Roman">
+                                        <Bold FontSize="0.166 in">Раздел 2.</Bold> Заполняется лицом, ведущим расследование уголовного дела или разрешившим материалы
+                                    </TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Height="101" >2.1</TextBlock>
+                                        <TextBlock Height="38" >2.2</TextBlock>
+                                        <TextBlock Height="417" >2.3</TextBlock>
+                                        <TextBlock >2.4</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell Style="{StaticResource mainTable}">
+                                <!--ПУНКТ 2.1 -->
+                                <Paragraph>
+                                    <Border BorderThickness="0,0,0,0.5" BorderBrush="Black">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="515" >а) <Bold>Дело</Bold> <Underline>направлено в суд</Underline> в порядке ст. 222 (01), ст. 226 (32), ст. 226.8 (34), п. 2 ч. 1 ст. 439  (30), ст. 25.1 (79) УПК РФ;
+    <Underline>прекращено с оставлением на учете на основании:</Underline> п. 3 ч. 1 ст. 24 (02), в т.ч. без установления лица (31),
+        п. 3 ч. 1 ст.27 (03), п. 4 ч. 1 ст. 24 (04), ст. 28 (07), ст. 28.1 (33), ч. 1 ст. 427 (08), ст. 25 (09); п. 1 ч. 1 ст. 27 (12),
+        ст. 25.1 (35) УПК РФ;
+    <Underline>прекращено со снятием с учета на основании:</Underline> п. 1 ч. 1 ст. 24 (13), п. 2 ч. 1 ст. 24 (14), ч. 3 ст. 27 (15), ч. 2 ст. 20 (16),
+        п. 5 ч. 1 ст. 24 (17), п. 4 ч. 1 ст. 27 (18), п. 5 ч. 1 ст. 27 (19), п. 1 ч. 1  ст. 439  (21), п. 6 ч.1 ст. 24 (36),
+        п. 6 ч. 1 ст. 27 (37),  ч. 2 ст. 24 (38) УПК РФ.<LineBreak />
+    <Underline>Передано по подследственности:</Underline> (26), соединено с другим делом  (28),  снято как излишне учтенное (40),
+        отменено постановление о возбуждении дела (78),
+                                            </TextBlock>
+                                            <StackPanel Margin="10,0,0,0" Width="161" Orientation="Horizontal">
+                                                <StackPanel>
+                                                    <TextBlock Text="Код решения" FontSize="0.083 in" FontFamily="Times New Roman"></TextBlock>
+                                                    <TextBlock Text="{Binding F11.UPKArticle, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" Style="{StaticResource ValueStyle}" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                                <StackPanel Margin="20,0,0,0">
+                                                    <TextBlock HorizontalAlignment="Right" Text="число   месяц   год" FontSize="0.083 in" FontFamily="Times New Roman"></TextBlock>
+                                                    <TextBlock Text="{Binding F11.UPKArticleDate, Converter={StaticResource DateConverter}, ConverterParameter=ShortYear}" Style="{StaticResource ValueStyle}"
+                                                               HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock  Width="568">
+                                                 б) решение принято в данном ВСО (01), в вышестоящем ВСУ (11), военным прокурором (10),
+                                                 командованием (03), другим ВСО (04), другим ВП (14), МВД (05), ФСБ (06), территориальным СО СК РФ (15),
+                                                 иностранным органом (08), иным органом (09)
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding F11.DecisionAccept, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" Style="{StaticResource ValueStyle}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Width="678">
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel Width="387">
+                                                <TextBlock Margin="2,5,0,0">
+                                                    - при передаче дела по подследственности указать орган, в который направлено дело, а также дату и исходящий №;
+                                                </TextBlock>
+                                                <TextBlock Margin="2,5,0,0">
+                                                    - при соединении с делом указать № дела, с которым оно соединено (т.е. нового у/д);
+                                                </TextBlock>
+                                            </StackPanel>
+                                            <Border BorderThickness="0.5,0,0,0" Width="291" Padding="10,0,0,0">
+                                                <StackPanel>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding F11.CaseSendTo}" Style="{StaticResource ValueStyle}" HorizontalAlignment="Left" />
+                                                        <TextBlock Text=", " Style="{StaticResource ValueStyle}"/>
+                                                        <TextBlock Text="{Binding F11.CaseSendDate,  Converter={StaticResource DateConverter}, ConverterParameter=ShortYear}" Style="{StaticResource ValueStyle}" HorizontalAlignment="Left" />
+                                                        <TextBlock Text=", " Style="{StaticResource ValueStyle}"/>
+                                                        <TextBlock Text="{Binding F11.CaseSendOutNumber}" Style="{StaticResource ValueStyle}" HorizontalAlignment="Left" />
+                                                    </StackPanel>
+                                                    <TextBlock Text="{Binding F11.ConnectCase}" Style="{StaticResource ValueStyle}" HorizontalAlignment="Left" />
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <StackPanel Orientation="Horizontal" Width="678">
+                                        <TextBlock Width="173" Height="155" FontFamily="Times New Roman">
+                                            <Bold>а) Номер преступления</Bold><LineBreak />
+                                            <Bold>б) Квалификация:</Bold><LineBreak />
+                                            <Italic FontSize="7">(указываются все пункты и части статьи УК, по которым квалифицируется преступление)</Italic><LineBreak />
+                                           <Bold> в) Преступление совершено в группе:</Bold> без сговора (0), по предварительному сговору (2), организованной (1), преступным сообществом (8).
+                                            <Underline>Организованная группа или сообщество с</Underline> коррумпированными связями (5), международными связями (6), межрегиональными связями (7).
+                                            <Underline>Соучастники:</Underline> только несовершеннолетние(3), несовершеннолетние и взрослые (4) иностранцы (9)
+                                        </TextBlock>
+                                        <Border BorderBrush="Black" BorderThickness="0.51" Width="504">
+                                            <DataGrid ItemsSource="{Binding F11.Crimes}" GridLinesVisibility="All"
+                                                  CellStyle="{StaticResource Body_Content_DataGrid_Centering}" ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Width="1*" Header="а) № прест" Binding="{Binding Path=CrimeNumber, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=3}" />
+                                                    <DataGridTextColumn Width="5*" Header="б) Статья, часть, пункты" Binding="{Binding Path=Qualification.StringView}" />
+                                                    <DataGridTextColumn Width="2.5*" Header="в) Группа" Binding="{Binding Path=Group.StringView}" />
+                                                    <DataGridTextColumn Width="1*" Header="г) Мотив" Binding="{Binding Path=CrimeMotive, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" />
+                                                    <DataGridTextColumn Width="1*" Header="д) Раскрыто" Binding="{Binding Path=Detection}" />
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Border>
+                                    </StackPanel>
+                                    <Border Width="676">
+                                        <TextBlock FontFamily="Times New Roman" Margin="2,2,10,0"><Bold>г) Мотив преступления</Bold>: корыстные побуждения (01), с целью сокрытия другого преступления (02), хулиганские побуждения (03), ревность,
+                                        ссора, личная неприязнь  и иные бытовые причины (04), месть (05), межнациональные (06), религиозные (07) отношения; приобретение: наркотиков
+                                        (08), сильнодействующих веществ (09), спиртных напитков (10); завладение оружием (11); сексуальные побуждения (12), избежать ответственности
+                                        за совершение другого преступления (13); недовольство требовательностью командира (14), ложно понятые интересы службы (15), карьеристские побуждения
+                                        (16), нежелание служить, в т.ч. временно (18), уклонение от военной службы из-за «неуставных» отношений (20); неосторожная вина (00) <LineBreak /><LineBreak />
+                                        <Bold>д) Раскрыто (лицо установлено):</Bold> следственным путем (1)
+                                        </TextBlock>
+                                    </Border>
+                                    <TextBlock>
+                                        <Bold>е) сведения о нарушениях командованием УПК и Дисциплинарного устава:</Bold> преступление сокрыто (1), <Underline>решение</Underline> не принято (2), принято несвоевременно (3),
+                                        о преступлении не доложено (8); <Underline> постановление о возбуждении дела</Underline> не направлено ВП (4), направлено несвоевременно (5);нарушен срок производства
+                                        неотложных следственных действий  (6), иные нарушения УПК (9)
+                                    </TextBlock>
+                                    <Border BorderBrush="Black" BorderThickness="0, 0.51, 0.51, 0.51">
+                                        <DataGrid ItemsSource="{Binding F11.ViolationInfos}"  GridLinesVisibility="All" ColumnWidth="138"
+                                                  CellStyle="{StaticResource Body_Content_DataGrid_Centering}" ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}" 
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="150">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding Path=CrimeNumber, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=3}" Header="№ прест" />
+                                                <DataGridTextColumn Binding="{Binding Path=ViolationCode}" Header="вид нарушения" />
+                                                <DataGridTextColumn Binding="{Binding Path=Person.Position}" Header="должность" />
+                                                <DataGridTextColumn Binding="{Binding Path=Person.Rank}" Header="звание" />
+                                                <DataGridTextColumn Binding="{Binding Path=Person.FIO}" Header="фамилия, инициалы" />
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                    <TextBlock TextAlignment="Center" Width="670" ><Bold FontFamily="Times New Roman" FontSize="12">
+                                        <Underline>Сведения о материальном ущербе, его возмещении и изъятии предметов преступной деятельности</Underline></Bold>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Underline>а) Номер преступления</Underline><LineBreak />
+                                        <Underline>б) Форма собственности:</Underline> в/частей и учреждений (01), иная федеральная (02), субъекта Федерации (03),
+                                        муниципальная (04), смешанная (05), общественных организаций (06), коммерческих организаций (07),
+                                        граждан РФ (08), совместная с иностранным участием (20), иностранных государств (22), иностранных юридических лиц (27),
+                                        иностранных граждан (28), лиц без гражданства (38) <LineBreak />
+                                        <Underline>в) Вид имущества:</Underline> вещевое (01), продовольствие (02), др. сельхоз.продукция (03),
+                                        строительные материалы (04), ГСМ (05), радиоактивные и ядерные материалы (06), цветные металлы (07), редкоземельные металлы (08),
+                                        драг. металлы (09), драг. камни (10), ювелирные изделия (11), произведения искусства (12); автомобили (21), мотоциклы (22), мопеды (23),
+                                        велосипеды (23), др. транспортные средства (27), аудио- видеотехника (31), ЭВМ (32), оружие, вооружение (41), боевая техника (42),
+                                        иная техника,(50); денежные средства (61), ценные бумаги (62), лечение (70), жилье (71), иная недвижимость (72), другое имущество (99);
+                                    </TextBlock>
+                                    <Border BorderBrush="Black" BorderThickness="0, 0.51, 0.51, 0.51">
+                                        <DataGrid ItemsSource="{Binding F11.MaterialDamageInfos}"  GridLinesVisibility="All" Width="679"
+                                                  CellStyle="{StaticResource Body_Content_DataGrid_Centering}" ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Width="1*" Binding="{Binding Path=CrimeNumber, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=3}" IsReadOnly="True" />
+                                                <DataGridTextColumn Width="1*" Binding="{Binding Path=Own.OwnForm, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" IsReadOnly="True" />
+                                                <DataGridTextColumn Width="1*" Binding="{Binding Path=Own.OwnType, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" IsReadOnly="True" />
+                                                <DataGridTextColumn Width="2*" Binding="{Binding Path=Own.SumRub}" IsReadOnly="True" Header="Сумма ущерба (руб.)" />
+                                                <DataGridTextColumn Width="2*" Binding="{Binding Path=Repayment, UpdateSourceTrigger=PropertyChanged}" Header="Добровольно погашено (руб.)"/>
+                                                <DataGridTextColumn Width="1.5*" Binding="{Binding Path=Withdrawed, UpdateSourceTrigger=PropertyChanged}" Header="Изъято (руб.)"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel>
+                                        <TextBlock Height="83">2.1.а</TextBlock>
+                                        <TextBlock Height="21">2.1.б</TextBlock>
+                                        <TextBlock Height="42">2.2</TextBlock>
+                                        <TextBlock Height="224">2.3.<LineBreak/>а-д</TextBlock>
+                                        <TextBlock Height="189">2.3.е</TextBlock>
+                                        <TextBlock Height="93">2.4</TextBlock>
+                                        <TextBlock Height="21">2.4.<LineBreak/>а-е</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Height="491">2.5</TextBlock>
+                                        <TextBlock Height="81">2.6</TextBlock>
+                                        <TextBlock Height="105">2.7</TextBlock>
+                                        <TextBlock Height="137">2.8</TextBlock>
+                                        <TextBlock Height="95">2.9</TextBlock>
+                                        <TextBlock Height="21">3.1</TextBlock>
+                                        <TextBlock Height="21">3.2</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell Style="{StaticResource mainTable}">
+                                <Paragraph>
+                                    <Border Width="678">
+                                        <StackPanel  Orientation="Horizontal">
+                                            <TextBlock Width="499" Height="456">
+                                                <Bold>Изъято имущества, предметов</Bold> <LineBreak />
+                                                а) наличных денег (160) в руб., сберегательных, банковских книжек, кредитных карт (161) в  руб., наличных облигаций, аккредитивов,
+                                                других ценных бумаг (171) в  руб.;<LineBreak />
+                                                б)долларов США (201), евро по курсу в долларах США (204); иной иностранной валюты в долларах США (203);<LineBreak />
+                                                в) предметов антиквариата. (301) ед., на сумму (300) руб., икон (311) ед., стоимостью (310) руб., предметов культа (313) ед., 
+                                                на сумму (312) руб., картин (321) ед., стоимостью (320) руб., монет (341) шт., стоимостью (340) руб., ювелирных изделий (351) ед.,
+                                                на сумму (350) руб., иные предметы, представляющие особую историческую, научную, художественную или культурную ценность (361) ед.,
+                                                на сумму (360) руб.;<LineBreak />
+                                                г) драгоценных металлов – промышленного: золота (401) гр, серебра (402) гр, платины (403) гр, платиновой группы (404) гр;
+                                                драгоценных металлов в изделиях и ломе: золота (411) гр, серебра (412) гр, платины (413) гр, платиновой группы (414) гр;<LineBreak />
+                                                д) драгоценных камней карат: алмазов (421), бриллиантов (422), рубинов (423), изумрудов (424), сапфиров (426), александритов (427),
+                                                жемчуга (428), других драгоценных камней (429);<LineBreak />
+                                                ж) цветных металлов и др. материалов: алюминия (451) кг, бронзы (452) кг, латуни (453) кг, меди (454) кг, олова (455) кг, ртути (456) кг,
+                                                соединений ртути (457) кг, свинца (458) кг, титана (459) кг, иных цветных металлов (460) кг, изъято редкоземельных металлов (480) кг,
+                                                изъято радиоактивных материалов (490) кг, нефти (430) кг, нефтепродуктов и ГСМ (431) кг, хлопка (436) кг., леса (437) куб.м;<LineBreak />
+                                                з) изъято оружия, боеприпасов и взрывчатых веществ – штатного оружия: пистолетов (501) единиц, револьверов (502) единиц, винтовок (503) единиц,
+                                                карабинов (504) единиц, автоматов (505) единиц, пулеметов (506) единиц, другого штатного стрелкового оружия (507) , штатного холодного (516) единиц,
+                                                патронов (508) единиц, гранат (509) единиц; мин, снарядов, ракет, других боеприпасов (510) единиц, взрывчатых веществ (511) кг,
+                                                гранатометы (517) в единицах, переносные ракетные комплексы (518) единиц, иного вооружения (512) единиц; нештатного оружия единиц:
+                                                огнестрельного гладкоствольного (513), нарезного (519), самодельных взрывных устройств (514), холодного (515);<LineBreak />
+                                                и) изъято сильнодействующих веществ (гр): теофедрин (602), пенталгин (603), седалгин (604), димедрол (605), этиловый эфир (606), эфедрин (607),
+                                                анаболические стероиды (610); транквилизаторы: элениум (751), тамзепам (752), нозепам (753), прочие (750); барбитураты: барбитал (601),
+                                                амитал натрия (731), этаминал натр (732), прочие (730); иные сильнодействующие вещества (608), потенциально опасных психоактивных веществ (759);<LineBreak />
+                                                к) изъято наркотических средств (гр.) – из растений мака: маковая солома (701),  опий (702), морфин (703), героин (704), дезоморфин (705),
+                                                прочие (700); из растений конопли: марихуана (711) , гашиш, анаша (712) , гашишное масло (713) , прочие (710) ; препараты из коки: кокаин (716) ,
+                                                прочие (715); амфетамины: амфетамин (721) , эфедрон (722) , МДМА (723), метамфетамин (724), прочие (720); галлюциногены: ЛСД (741),
+                                                фенциклидин (742), прочие (740); иные: 3-метил-фентанил (719), промедол (761), синтетические (765), прочие (760);
+                                                наркотикосодержащих растений: опийный мак (771) , масличный мак (772) ,  конопля (773) , прочие (770)
+                                                прекурсоров (799) кг.
+                                                уничтожено (изъято) наркотикосодержащих растений:  мака (781) кг., конопли (782) кг., иных (788) кг. <LineBreak />
+                                                л) изъято продовольствия на сумму (661) руб., алкогольной продукции (652) л., на сумму (653) руб., этилового спирта (650) л., на сумму (651) руб.<LineBreak />
+                                                м) изъято технических средств: радиосредств (803) единиц, средств наблюдения (806) единиц,  автомашин отечественных (802), иномарок (801) единиц,
+                                                средств личной защиты (804) единиц, орудий взлома (805) единиц, иной техники, приборов (800) единиц; <LineBreak />
+                                                н) информационной продукции экстремистского характера печатной (831), аудио, видео (832), дисков, дискет (833) единиц; <LineBreak />
+                                                о) изъято поддельных: денег в руб. (901), денег в шт. (906), государственных ценных бумаг (902) в руб.;
+                                                иностранной валюты - долларов США по номиналу (911), в шт. (917), «евро» в долларах США (912), в шт. (918),
+                                                иной валюты в долларах США (по установленному курсу) (910), в шт. (916); финансово-платежных документов в руб. (990) в шт. (991)<LineBreak />
+                                            </TextBlock>
+
+                                            <StackPanel>
+                                                <TextBlock Text="     Код       кол-во (руб., единиц, кг и пр.)"/>
+                                                <DataGrid Width="180" ItemsSource="{Binding F11.Things}" GridLinesVisibility="None" Margin="25,0,0,0" CellStyle="{StaticResource Body_Content_DataGrid_Centering}">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Width="1*"  Binding="{Binding Path=Thing, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=3}"/>
+                                                        <DataGridTextColumn Width="5*" Binding="{Binding Path=WCount}" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Width="678">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="411" Height="76">
+                                            Предъявлен <Bold>гражданский иск</Bold> <LineBreak />
+                                            <Underline>военным прокурором  в интересах:</Underline> государства (01), физических лиц (04);
+                                            командованием в/части, учреждения, организации (05), иной государственной организацией (06), муниципальным органом (07);
+                                            общественной организацией (08), коммерческой организацией (09), физиче-ским лицом или его представителем (10), иностранной организацией (11)
+                                            </TextBlock>
+                                            <Border BorderBrush="Black" BorderThickness="0.51,0,0,0" Width="270">
+                                                <DataGrid ItemsSource="{Binding F11.CivilActions}" CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+                                                      ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}" Width="270" ColumnWidth="135">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Binding="{Binding Path=Code, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" Header="Код" />
+                                                        <DataGridTextColumn Binding="{Binding Path=Sum}" Header="Миллионы тысячи рубли" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="518" Height="106">
+                                                <Bold>Применение научно-технических средств криминалистики:</Bold> судебная фотография (01), аудиозапись (02), видео-, кино-съемка (03); <LineBreak />
+                                                <Underline>поисковые приборы:</Underline> металлоискатели всех типов (04), ультрафиолетовые и инфракрасные облучатели (05), магнитные подъемники, тралы, щупы (06); био-, гео-, эхо- и нелинейные локаторы (11), оптические приборы (12), иные поисковые прибо-ры (13); <LineBreak />
+                                                <Underline>средства обнаружения, фиксации:</Underline> полимерные материалы (07), гипс (08), дактилоскопические порошки и химикаты (09);
+                                                <Bold> ИСПОЛЬЗОВАНИЕ</Bold> дактилоскопического учета осужденных (51), учета лиц, объявленных в розыск (52), учета похищенных и изъятых предметов (53); криминалистического учета лиц (54), учета обстоятельств и способов совершения преступлений (55), учета ГИБДД (56), адресно-справочной картотеки (57).<LineBreak />
+                                                Другие НТС (указать какие) (00):
+                                            </TextBlock>
+                                            <Border BorderBrush="Black" BorderThickness="0.51,0,0,0" Width="162">
+                                                <DataGrid ItemsSource="{Binding F11.SciTechMeanUses}" CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+                                                      ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}" Width="164" ColumnWidth="82">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Binding="{Binding Path=Code, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" Header="Код" />
+                                                        <DataGridTextColumn Binding="{Binding Path=Count}" Header="Сколько раз" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="373">
+                                                <Bold>Проведено экспертиз:</Bold><LineBreak />
+                                               <Underline> Криминалистических:</Underline> почерковедческих (01), документов (02), дактилоскопических (03), иных трассологических (04), холодного оружия (05);
+                                                баллистических (06); портретно-идентификационных (07); материалов, веществ и изделий (08); биологических (09)
+                                                <Underline>Судебно-медицинских:</Underline> трупов (10), живых лиц (11); вещественных доказательств (24); молекулярно-генетических (12);
+                                                <Underline>судебно-психиатрических:</Underline> амбулаторных (13), стационарных (14), посмертных (15);
+                                                <Underline>судебно-психологических</Underline> (16);
+                                                 <Underline>судебно-технических:</Underline> о нарушении правил ТБ (17); о пожарах (18); автотранспортных (19); о других крушениях и авариях (20);
+                                                судебно-товароведческих (21); судебно-бухгалтерских (22);
+                                                <Underline>военно-уставных</Underline> (23);
+                                                других (указать каких) ______________________________________________________ (00) <LineBreak />
+                                               <Bold> Экспертизы проведены в учреждениях:</Bold> Министерства юстиции (1), Министерства здравоохранения (2), Министерства обороны (3),
+                                                Министерства внутренних дел (4), Федеральной службы безопасности (7), иных учреждениях (5), вне учреждений (6)
+                                            </TextBlock>
+                                            <Border BorderBrush="Black" BorderThickness="0.51,0,0,0" Width="305">
+                                                <DataGrid ItemsSource="{Binding F11.Expertizes}" CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+                                                      ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}"  ColumnWidth="76"
+                                                      ColumnHeaderHeight="20">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Binding="{Binding Path=ExpertizeCode, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" Header="     Код&#10;экспертизы" />
+                                                        <DataGridTextColumn Binding="{Binding Path=InstituteCode, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}" Header="      Код&#10;учреждения" />
+                                                        <DataGridTextColumn Binding="{Binding Path=Count}" Header="Количество&#10; экспертиз" />
+                                                        <DataGridTextColumn Binding="{Binding Path=Cost}" Header="   Стоимость&#10;экспертиз (руб.)" />
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="212" Height="104">
+                                                <Bold>О принятии мер по устранению обстоятельств, способствовавших преступлению:</Bold> внесено представление (1); сообщение в
+                                                средствах массо-вой информации (5)
+                                            </TextBlock>
+                                            <Border BorderBrush="Black" BorderThickness="0.51, 0, 0, 0" Width="465" >
+                                                <DataGrid x:Name="DGV" ItemsSource="{Binding F11.ActionInfos}" CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+                                                      ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}"  ColumnWidth="76" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn Binding="{Binding Path=Code}" Header="Код" />
+                                                        <DataGridTextColumn Binding="{Binding Path=Destination}" Header="Кому" Width="300" />
+                                                        <DataGridTextColumn Binding="{Binding Path=Date, Converter={StaticResource DateConverter}, ConverterParameter=ShortYear}" Header="число  месяц  год"  Width="92"/>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Width="384">
+                                                Направлено <Bold>требований прокурора об устранений нарушений федерального законодательства</Bold>, допущенных в ходе предварительного расследования
+                                            </TextBlock>
+                                            <Border Width="42" BorderThickness="0,0,0.5,0" BorderBrush="Black">
+                                                <TextBlock Text="{Binding F11.DemandsTotal}" Style="{StaticResource ValueStyle}" />
+                                            </Border>
+                                            <TextBlock>
+                                                из них удовлетворено
+                                            </TextBlock>
+                                            <TextBlock Text="{Binding F11.DemandsAccepted}" Width="148" TextAlignment="Right" Style="{StaticResource ValueStyle}" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="145">
+                                                <TextBlock Text="Расследовал уголовное дело (разрешил материалы), дата заполнения карточки:" />
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="110">
+                                                <StackPanel>
+                                                    <TextBlock Text="Должность:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding RegData.User.Position, Converter={StaticResource KeyValueConverter}, ConverterParameter=Positions}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="80">
+                                                <StackPanel>
+                                                    <TextBlock Text="звание:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding RegData.User.Rank, Converter={StaticResource KeyValueConverter}, ConverterParameter=Ranks}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="148">
+                                                <StackPanel>
+                                                    <TextBlock Text="Фамилия, инициалы:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding RegData.User.FIO}" FontSize="0.138 in" FontFamily="Times New Roman" HorizontalAlignment="Center" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="84">
+                                                <TextBlock Text="подпись:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="113">
+                                                <StackPanel>
+                                                    <TextBlock Text="число месяц год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding Today}" FontSize="0.152 in" HorizontalAlignment="Center" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="145">
+                                                <localControl:AutoSizeTextBox Text="Руководитель ВСО" FontFamily="Times New Roman" Height="30" FontSize="0.138 in" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <localControl:AutoSizeTextBox.Style>
+                                                        <Style TargetType="{x:Type localControl:AutoSizeTextBox}">
+                                                            <Setter Property="Text" Value="Руководитель следственного органа"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding F11.DirectorIsTemporary}" Value="True">
+                                                                    <Setter Property="Text" Value="ВрИО руководителя следственного органа"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </localControl:AutoSizeTextBox.Style>
+                                                </localControl:AutoSizeTextBox>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="97">
+                                                <StackPanel>
+                                                    <TextBlock Text="звание:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding RegData.VSOchef.Rank, Converter={StaticResource KeyValueConverter}, ConverterParameter=Ranks}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="209">
+                                                <StackPanel>
+                                                    <TextBlock Text="Фамилия, инициалы:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding RegData.VSOchef.FIO}"  HorizontalAlignment="Center" FontSize="0.138 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="116">
+                                                <TextBlock Text="подпись:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="113">
+                                                <StackPanel>
+                                                    <TextBlock Text="число месяц год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding Today}"  HorizontalAlignment="Center" FontSize="0.152 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="145">
+                                                <TextBlock Text="Военный прокурор" FontFamily="Times New Roman" FontSize="0.138 in" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="97">
+                                                <StackPanel>
+                                                    <TextBlock Text="звание:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding RegData.MilitaryProsecutor.Rank, Converter={StaticResource KeyValueConverter}, ConverterParameter=Ranks}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="209">
+                                                <StackPanel>
+                                                    <TextBlock Text="Фамилия, инициалы:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding RegData.MilitaryProsecutor.FIO}"  HorizontalAlignment="Center" FontSize="0.138 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="116">
+                                                <TextBlock Text="подпись:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                            </Border>
+                                            <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="115">
+                                                <StackPanel>
+                                                    <TextBlock Text="число месяц год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock Text="{Binding Today}" HorizontalAlignment="Center" FontSize="0.152 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                </StackPanel>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Height="490">2.5.<LineBreak/>а-м</TextBlock>
+                                        <TextBlock Height="78">2.6</TextBlock>
+                                        <TextBlock Height="108">2.7</TextBlock>
+                                        <TextBlock Height="137">2.8</TextBlock>
+                                        <TextBlock Height="64">2.9</TextBlock>
+                                        <TextBlock Height="21">3.1</TextBlock>
+                                        <TextBlock Height="33">3.2.а</TextBlock>
+                                        <TextBlock Height="29">3.2.б</TextBlock>
+                                        <TextBlock Height="19">3.2.в</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Row="1">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                    <Setter Property="FontSize" Value="0.111 in" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="Печать первой страницы" Height="30" Command="{Binding Commands.PrintFirstPage}" CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+            <Button Content="Печать второй страницы"  Height="30" Command="{Binding Commands.PrintSecondPage}" CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+            <Button Content="Полная печать"  Height="30" Command="{Binding Commands.PrintFullDocument}" CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+            <Button Content="Настраиваемая печать" Height="30" Command="{Binding Commands.PrintWithDialog}" CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,45 @@
+﻿<Window x:Class="StatCardApp.CaseInformation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        mc:Ignorable="d"
+        Title="Создание нового дела" Height="300" Width="850">
+    <Window.Resources>
+        <Style x:Key="CIblock">
+            <Setter Property="Control.Height" Value="60" />
+        </Style>
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource TBMainStyle}" />
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <!--Названия полей ввода-->
+        <StackPanel Grid.Column="0" Margin="20,20,0,0">
+            <TextBlock Text="Вид дела" Style="{StaticResource CIblock}" Margin="0,10,0,0" />
+            <TextBlock Text="Дата регистрации" Style="{StaticResource CIblock}" Margin="0,10,0,0" />
+            <TextBlock Text="Номер дела" Style="{StaticResource CIblock}" Margin="0,10,0,0" />
+        </StackPanel>
+        <!--/////////////////////////////////////////////-->
+
+        <!--Поля ввода-->
+        <StackPanel Grid.Column="1" Margin="0,0,20,0">
+            <localControl:FiltredComboBox ItemsSource="{Binding data.CaseTypes}"  SelectedValue="{Binding CaseInfo.CaseType, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource FilterCBStyle}"  Height="60" Background="AliceBlue" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
+            <Border Background="AliceBlue" Margin="0,10,0,0">
+                <DatePicker SelectedDate="{Binding CaseInfo.RegDate, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Height="60" />
+            </Border>
+            <TextBox x:Name="TBcase" Text="{Binding CaseInfo.CaseNumber, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
+                     Height="60" Background="AliceBlue" HorizontalAlignment="Stretch"
+                     materialDesign:ValidationAssist.FontSize="0.066"
+                     Validation.Error="TextBox_Error" />
+            <Button Content="Создать дело" Click="Button_Click_CreateCaseFile" HorizontalAlignment="Center" Height="30" Margin="10" />
+        </StackPanel>
+        <!--/////////////////////////////////////////////-->
+    </Grid>
+</Window>

@@ -1,0 +1,183 @@
+﻿<Window x:Class="StatCardApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        xmlns:localConverter="clr-namespace:StatCardApp.Convertors"
+        xmlns:local="clr-namespace:StatCardApp"
+        mc:Ignorable="d"
+        Title="Статистические карточки"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="CheckFirstStart">
+
+    <Window.Resources>
+        <localConverter:DateConverter x:Key="DateConverter"/>
+        <localConverter:KeyValueConverter x:Key="KeyValueConverter"/>
+
+        <Style TargetType="localControl:FiltredComboBox" BasedOn="{StaticResource FilterCBStyle}">
+            <Setter Property="Width" Value="350"/>
+        </Style>
+
+
+        <Style x:Key="SendServerButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="IsEnabled" Value="True"/>
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+               <!-- <DataTrigger Binding="{Binding Path=SentToServer}" Value="True">
+                    <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>-->
+                <DataTrigger Binding="{Binding Path=CardTypeStr}" Value="Ф-3.1">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=CardTypeStr}" Value="Ф-6">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style TargetType="TextBlock" >
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="10"/>
+        </Style>
+
+        <Style TargetType="{x:Type MenuItem}" x:Key="EnabledAfterFullCase" BasedOn="{StaticResource MaterialDesignMenuItem}">
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CaseInfoVM.CaseIsFilled, UpdateSourceTrigger=PropertyChanged}" Value="true">
+                    <Setter Property="IsEnabled" Value="True"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type DataGrid}" BasedOn="{StaticResource MaterialDesignDataGrid}"/>
+    </Window.Resources>
+    <Grid >
+        <StackPanel>
+            <!--Панель меню-->
+            <StackPanel>
+                <Menu VerticalAlignment="top"  Background="LightBlue" x:Name="Menu">
+                    <MenuItem Header="Настройки пользователя" Click="UserSettings_Click"></MenuItem>
+                    <MenuItem Header="Создать дело" Click="Button_Click_CreateCase"/>
+                    <MenuItem Header="Импорт карточки" Command="{Binding ImportCard}" x:Name="CardImportMenuItem"/>
+                    <MenuItem Header="Создать статистическую карту" x:Name="StatCardListMenuItem" Style="{StaticResource EnabledAfterFullCase}">
+                        <MenuItem Header="Карточка Ф-1"   x:Name="newF1Button"  Click="Button_Click_CreateF1Card" />
+                        <MenuItem Header="Карточка Ф-1.1" x:Name="newF11Button" Click="Button_Click_CreateF11Card" />
+                        <MenuItem Header="Карточка Ф-1.2" x:Name="newF12Button" Click="Button_Click_CreateF12Card"/>
+                        <MenuItem Header="Карточка Ф-1.3" x:Name="newF13Button" Click="Button_Click_CreateF13Card"/>
+                        <MenuItem Header="Карточка Ф-2"   x:Name="newF2Button"  Click="Button_Click_CreateF2Card" />
+                        <MenuItem Header="Карточка Ф-3"   x:Name="newF3Button"  Click="Button_Click_CreateF3Card" />
+                        <MenuItem Header="Карточка Ф-3.1" x:Name="newF31Button" Click="Button_Click_CreateF31Card"/>
+                        <MenuItem Header="Карточка Ф-5"   x:Name="newF5Button"  Click="Button_Click_CreateF5Card"  />
+                        <MenuItem Header="Карточка Ф-5.5" x:Name="newF55Button" Click="Button_Click_CreateF55Card" />
+                        <MenuItem Header="Карточка Ф-6"   x:Name="newF6Button"  Click="Button_Click_CreateF6Card" />
+                    </MenuItem>
+                </Menu>
+            </StackPanel>
+            <!--/////////////////////////////////////////////-->
+            
+            <!--Информация о выбранном деле-->
+            <StackPanel Orientation="Horizontal">
+
+                <TreeView x:Name="treeView1" 
+                          HorizontalAlignment="Left" 
+                          BorderBrush="Black" BorderThickness="0,0,1,1"
+                          Background="GhostWhite">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type local:TreeViewFolderItem}" ItemsSource="{Binding Items, UpdateSourceTrigger=PropertyChanged}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding ImagePath}" Width="30" Height="30" VerticalAlignment="Center"/>
+                                <TextBlock  Text="{Binding Title}" VerticalAlignment="Center"/>
+                                <Button Name="SelectCaseButton" Content="Выбрать" Visibility="Collapsed" FontSize="10" 
+                                        Height="25" VerticalAlignment="Center" Click="Button_Click_SelectCase" Tag="{Binding Path}"/>
+                                <Button Name="DeleteCaseButton" Content="Удалить" Visibility="Collapsed" FontSize="10" 
+                                        Height="25" VerticalAlignment="Center" Click="Button_Click_DeleteCase" Tag="{Binding Path}"/>
+                                <Button Name="SendCaseToServerButton" Visibility="Collapsed" VerticalAlignment="Center" Click="Button_Click_SendCaseToServer" 
+                                        Tag="{Binding Path}" Style="{StaticResource SendServerButton}" Width="30" Height="30" Margin="10,0,0,0"
+                                        Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Path=Background}">
+                                    <StackPanel>
+                                        <Image Source="Resources\cloud.png" Stretch="UniformToFill"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <HierarchicalDataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsCase}" Value="True">
+                                    <Setter TargetName="SelectCaseButton" Property="Visibility" Value="Visible"/>
+                                    <Setter TargetName="DeleteCaseButton" Property="Visibility" Value="Visible"/>
+                                    <Setter TargetName="SendCaseToServerButton" Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </HierarchicalDataTemplate.Triggers>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+                
+                <StackPanel x:Name="CasePanel">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock VerticalAlignment="Top" FontWeight="Bold" Text="Вид дела: " Margin="10,20,0,20"/>
+                            <TextBlock VerticalAlignment="Top" FontWeight="Bold" Text="Номер дела: " Margin="10,20,0,20"/>
+                            <TextBlock VerticalAlignment="Top" FontWeight="Bold" Text="Дата регистрации: " Margin="10,10,0,0"/>
+                        </StackPanel>
+                        <StackPanel x:Name="CaseDescription" IsEnabled="False">
+                            <localControl:FiltredComboBox VerticalAlignment="Top" SelectedValue="{Binding CaseInfoVM.CaseInfo.CaseType, UpdateSourceTrigger=PropertyChanged}" Margin="10"
+                                               ItemsSource="{Binding CaseInfoVM.data.CaseTypes}" LostFocus="EnterCaseDataFieldLostFocus"/>
+                            <TextBox VerticalAlignment="Top" Text="{Binding CaseInfoVM.CaseInfo.CaseNumber, UpdateSourceTrigger=PropertyChanged}" Margin="10" Style="{StaticResource TBMainStyle}" 
+                                     HorizontalAlignment="Stretch" LostFocus="EnterCaseDataFieldLostFocus"/>
+                            <DatePicker VerticalAlignment="Top" SelectedDate="{Binding CaseInfoVM.CaseInfo.RegDate, UpdateSourceTrigger=PropertyChanged}" Margin="10"
+                                        LostFocus="EnterCaseDataFieldLostFocus"/>
+                        </StackPanel>
+                        <Button x:Name="CaseProductionButton" IsEnabled="False" Content="Передача производства дела" Click="ShowCaseProducationWindow"/>
+                    </StackPanel>
+                    <DataGrid x:Name="StatCardList"  
+                              ItemsSource="{Binding StatCardList.CardList, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"
+                              Margin="0,20,0,0" ScrollViewer.CanContentScroll="False" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Path=CardTypeStr}" Header="Тип Карточки" />
+                            <DataGridTextColumn Binding="{Binding Path=Date, Converter={StaticResource DateConverter}}" Header="Дата создания"/>
+                            <DataGridTextColumn Binding="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged}" Header="Идентификатор" Width="380"/>
+                            <DataGridTemplateColumn Header="Отправлена на сервер">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding Path=SentToServerImagePath, UpdateSourceTrigger=PropertyChanged}" Height="15" Width="15"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Открыть" Click="Button_Click"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить" Click="DeleteCard"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button VerticalAlignment="Center" Click="SendToServer"
+                                        Tag="{Binding Path=Path}" Style="{StaticResource SendServerButton}" Width="30" Height="30" Margin="10,0,0,0"
+                                        Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}, Path=Background}">
+                                            <StackPanel>
+                                                <Image Source="Resources\cloud.png" Stretch="UniformToFill"/>
+                                            </StackPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+                <!--/////////////////////////////////////////////-->
+
+            </StackPanel>
+        </StackPanel>
+        
+
+
+    </Grid>
+</Window>

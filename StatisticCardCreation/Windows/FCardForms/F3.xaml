@@ -1,0 +1,265 @@
+﻿<Window x:Class="StatCardApp.F3Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        xmlns:localConverter="clr-namespace:StatCardApp.Convertors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+        mc:Ignorable="d"
+        Title="Форма Ф-3" Height="1080" Width="1920" WindowState="Maximized">
+    <Window.Triggers>
+        <!--АНИМАЦИИ ВЫПАДЕНИЯ ДЛЯ СПИСКОВ:-->
+        <!--|||||||||||||||||||||||||||||||-->
+        <!--РЕШЕНИЕ ПО ДЕЛУ-->
+        <EventTrigger RoutedEvent="CheckBox.Checked" SourceName="DecisionCheckBox">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="DecisionStack"
+                                         From="0" To="{c:Binding ElementName=DecisionList, Path=(Items.Count+4.7)*(FontSize/3*8+2)}" Duration="0:0:0.2" />
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="DecisionList" 
+                                         From="0" To="{c:Binding ElementName=DecisionList, Path=(Items.Count+3)*(FontSize/3*8+2)}" Duration="0:0:0.2" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="CheckBox.Unchecked" SourceName="DecisionCheckBox">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="DecisionStack"
+                                         From="{Binding ElementName=DecisionStack, Path=ActualHeight}" To="0" Duration="0:0:0.2" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+
+    </Window.Triggers>
+
+    <Window.Resources>
+        <localConverter:KeyValueConverter x:Key="KeyValueConverter" />
+        <localConverter:DateConverter x:Key="DateConverter" />
+        <localConverter:ValueToSizeConverter x:Key="ValueToSizeConverter" />
+        <localConverter:NumberConverter x:Key="NumberConverter" />
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource TBMainStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="White" />
+        </Style>
+
+        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignDatePicker}">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="BorderBrush" Value="OrangeRed" />
+            <Setter Property="Background" Value="Red" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Padding" Value="2,2,2,2" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontFamily" Value="Times New Roman" />
+        </Style>
+
+        <Style TargetType="localControl:FiltredComboBox" BasedOn="{StaticResource FilterCBStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="10, 0, 10, 0" />
+            <Setter Property="Margin" Value="10,0,0,10" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+
+        <TabControl>
+            <TabItem Header="Карточка Ф-3">
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Background" Value="GhostWhite" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="CornerRadius" Value="5" />
+                            <Setter Property="Margin" Value="0,0,0,20" />
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="0.51"/>
+                            <Setter Property="Padding" Value="0,0,10,0"/>
+                        </Style>
+                        <Style TargetType="Border" x:Key="DatePickerBorder">
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="10,0,0,0"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="CornerRadius" Value="0" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40*" />
+                        <RowDefinition Height="4*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Дата направления карточки прокурору" />
+                                <Border Style="{StaticResource DatePickerBorder}">
+                                    <Border.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Width" Value="10" />
+                                        </Style>
+                                    </Border.Resources>
+                                    <DatePicker  SelectedDate="{Binding F3.TransCardDate, UpdateSourceTrigger=PropertyChanged}" />
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Направлено требований прокурора об устранений нарушений федерального законодательства, допущенных в ходе предварительного расследования" />
+                                <TextBox Text="{Binding F3.DemandsTotal, Converter={StaticResource NumberConverter}, UpdateSourceTrigger=PropertyChanged}" Validation.Error="TextBox_Error" KeyDown="IntTextValidate" />
+                                <TextBlock Text="Из них удовлетворено" />
+                                <TextBox Text="{Binding F3.DemandsAccepted, Converter={StaticResource NumberConverter}, UpdateSourceTrigger=PropertyChanged}" Validation.Error="TextBox_Error" KeyDown="IntTextValidate" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Решение по делу" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.caseDecision}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding CaseDecToAdd.Decision, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+                                
+                                <Border Style="{StaticResource DatePickerBorder}" >
+                                    <Border.Resources>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Width" Value="Auto" />
+                                        </Style>
+                                    </Border.Resources>
+                                    <DatePicker materialDesign:HintAssist.Hint="Дата"  SelectedDate="{Binding CaseDecToAdd.Date, UpdateSourceTrigger=PropertyChanged}" />
+                                </Border>
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.desicionAccept}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding CaseDecToAdd.Source, UpdateSourceTrigger=PropertyChanged}" />
+                                <StackPanel Margin="0,10,0,0">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CaseDecToAdd.Decision}" Value="69">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding CaseDecToAdd.Decision}" Value="70">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    <TextBlock Text="Срок предварительного следствия продлён" />
+                                    <Border Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="Auto" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker materialDesign:HintAssist.Hint="До:" SelectedDate="{Binding CaseDecToAdd.TermExtensionDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                    <TextBox materialDesign:HintAssist.Hint="Сколько месяцев:" Text="{Binding CaseDecToAdd.TermExtension, Converter={StaticResource NumberConverter}, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
+                             KeyDown="IntTextValidate" Validation.Error="TextBox_Error" />
+                                    <TextBlock Text="Причины продления предварительного следствия" Margin="0,10,0,0"/>
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.investigationExtensionReason}" ErrorChanged="CBErrorHandler"
+                                           SelectedValue="{Binding CaseDecToAdd.CaseExtendReason, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+
+                                <Grid Margin="0,10,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="Добавить" Command="{Binding AddToCaseDecList}" Grid.Column="1"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                                        <TextBlock Text="Показать список"/>
+                                        <CheckBox x:Name="DecisionCheckBox"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <StackPanel x:Name="DecisionStack" Height="0">
+                                    <Border Background="White" BorderThickness="0">
+                                        <ListView x:Name="DecisionList" ItemsSource="{Binding F3.CaseDecisions}" HorizontalContentAlignment="Center" SelectedItem="{Binding ItemToRemove}">
+                                            <ListView.Resources>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Width" Value="Auto" />
+                                                </Style>
+                                            </ListView.Resources>
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Decision, Converter={StaticResource KeyValueConverter}, ConverterParameter=caseDecision}" Header="Решение" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Date, Converter={StaticResource DateConverter}}" Header="Дата" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Path=Source, Converter={StaticResource KeyValueConverter}, ConverterParameter=desicionAccept}"  Header="Где принято решение" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </Border>
+                                    <Button Content="Удалить выбранный элемент" Command="{Binding RemoveFromCaseDecList}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Информация о ведущих расследование лицах">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Данные лица, ведущего расследование уголовного дела (разрешивщего материалы) и дата заполнения карточки:" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Positions}" SelectedValue="{Binding RegData.User.Position, UpdateSourceTrigger=PropertyChanged}" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.User.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.User.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <RadioButton Style="{StaticResource SCRadioButton}" GroupName="Director" Content="Руководитель следственного отдела" IsChecked="True" Margin="0,0,10,0"/>
+                                    <RadioButton Style="{StaticResource SCRadioButton}" GroupName="Director" Content="ВрИО руководителя следственного отдела" IsChecked="{Binding F3.DirectorIsTemporary, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.VSOchef.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.VSOchef.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Военный прокурор:" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.MilitaryProsecutor.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.MilitaryProsecutor.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <Button x:Name="SaveButton" Content="Сохранить" Command="{Binding SaveCard}" />
+            <Button Content="Изменить" Command="{Binding ChangeCard}" />
+            <Button x:Name="ViewDocBut" Content="Просмотреть документ" Click="Button_Click_ViewDocument" IsEnabled="True" />
+            <Button Content="Экспорт" Command="{Binding ExportCard}" />
+            <Button Content="Отправить на сервер" Command="{Binding SendToServer}" />
+        </StackPanel>
+    </Grid>
+</Window>

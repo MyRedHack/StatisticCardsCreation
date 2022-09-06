@@ -1,0 +1,22 @@
+﻿<Window x:Class="StatCardApp.CaseProductionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StatCardApp"
+        mc:Ignorable="d"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        Title="CaseProductionWindow" Height="450" Width="800">
+    <Window.Resources>
+        <localControl:FiltredComboBox x:Key="FiltredComboBox"/>
+    </Window.Resources>
+    <Grid>
+        <StackPanel x:Name="CaseDescription">
+                <localControl:FiltredComboBox ItemsSource="{Binding Data.Positions}" SelectedValue="{Binding ProductionInfo.Position,  UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Str" DisplayMemberPath="Str"/>
+                <localControl:FiltredComboBox ItemsSource="{Binding Data.Ranks}" SelectedValue="{Binding ProductionInfo.Rank,  UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Str" DisplayMemberPath="Str"/>
+                <TextBox Text="{Binding ProductionInfo.FIO,  UpdateSourceTrigger=PropertyChanged}" />
+                <DatePicker VerticalAlignment="Top" SelectedDate="{Binding ProductionInfo.Date, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <Button Content="Передать производство" Click="SendCaseProductionToServer"/>
+    </Grid>
+</Window>

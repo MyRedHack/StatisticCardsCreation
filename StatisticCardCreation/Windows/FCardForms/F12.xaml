@@ -1,0 +1,526 @@
+﻿<Window x:Class="StatCardApp.F12Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        xmlns:localConverter="clr-namespace:StatCardApp.Convertors"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+        mc:Ignorable="d"
+        Title="Форма Ф-1.2" Height="1080" Width="1920" WindowState="Maximized">
+    <Window.Triggers>
+        <!--АНИМАЦИИ ВЫПАДЕНИЯ ДЛЯ СПИСКОВ:-->
+        <!--|||||||||||||||||||||||||||||||-->
+        <!--ДОЛЖНОСТНОЕ ПОЛОЖЕНИЕ-->
+        <EventTrigger RoutedEvent="CheckBox.Checked" SourceName="OfficialStatusShowCheckBox">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="OfficialStatusStack"
+                                         From="0" To="{c:Binding ElementName=OfficialStatusList, Path=(Items.Count+3)*(FontSize/3*8+2)}" Duration="0:0:0.2" />
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="OfficialStatusList" 
+                                         From="0" To="{c:Binding ElementName=OfficialStatusList, Path=(Items.Count+1)*(FontSize/3*8+2)}" Duration="0:0:0.2" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="CheckBox.Unchecked" SourceName="OfficialStatusShowCheckBox">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="OfficialStatusStack"
+                                         From="{Binding ElementName=OfficialStatusStack, Path=ActualHeight}" To="0" Duration="0:0:0.2" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+
+        <!--ПРЕСТУПЛЕНИЯ-->
+        <EventTrigger RoutedEvent="CheckBox.Checked" SourceName="CrimeCheckBox">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="CrimeStack"
+                                         From="0" To="{c:Binding ElementName=CrimeList, Path=(Items.Count+4.7)*(FontSize/3*8+2)}" Duration="0:0:0.2" />
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="CrimeList" 
+                                         From="0" To="{c:Binding ElementName=CrimeList, Path=(Items.Count+3)*(FontSize/3*8+2)}" Duration="0:0:0.2" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="CheckBox.Unchecked" SourceName="CrimeCheckBox">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Height" Storyboard.TargetName="CrimeStack"
+                                         From="{Binding ElementName=CrimeStack, Path=ActualHeight}" To="0" Duration="0:0:0.2" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Window.Resources>
+        <localConverter:KeyValueConverter x:Key="KeyValueConverter" />
+        <localConverter:QualificationConverter x:Key="QualificationConverter" />
+        <localConverter:NumberConverter x:Key="NumberConverter" />
+
+        <Style TargetType="TextBox" BasedOn="{StaticResource TBMainStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="White" />
+        </Style>
+
+        <Style TargetType="localControl:TemplateTextBox" BasedOn="{StaticResource TBMainStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="White" />
+        </Style>
+
+        <Style TargetType="ListView" BasedOn="{StaticResource MaterialDesignListView}">
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        </Style>
+
+        <Style TargetType="DatePicker" BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}">
+            <Setter Property="BorderBrush" Value="OrangeRed" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="Red" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Padding" Value="2,2,2,2" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontFamily" Value="Times New Roman" />
+        </Style>
+
+        <Style TargetType="localControl:FiltredComboBox" BasedOn="{StaticResource FilterCBStyle}">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style TargetType="StackPanel">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+
+        <Style TargetType="Border" x:Key="DatePickerBorder">
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="0" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="GhostWhite" />
+                <Setter Property="CornerRadius" Value="3" />
+                <Setter Property="Margin" Value="0,0,0,20" />
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="BorderThickness" Value="0.51"/>
+                <Setter Property="Padding" Value="0,0,10,0"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Часть 1">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Учесть" />
+                                    <localControl:FiltredComboBox ErrorChanged="CBErrorHandler"
+                                                           ItemsSource="{Binding data.accounting}"
+                                                           SelectedValue="{Binding F12.Accounting, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Место службы лица:   условное наименование воинской части, учреждения, организации" />
+                                    <TextBox Text="{Binding F12.MilitaryUnit, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Порядковый номер подозреваемого в уголовном деле" />
+                                    <TextBox Validation.Error="TextBox_Error" Text="{Binding F12.SuspectNumber, Converter={StaticResource NumberConverter},  UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" KeyDown="IntTextValidate" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Дата направления карточки прокурору" />
+                                    <Border Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker  SelectedDate="{Binding F12.TransCardDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Ф.И.О." />
+                                    <TextBox materialDesign:HintAssist.Hint="Фамилия" Text="{Binding F12.FIO.Surname}" />
+                                    <TextBox materialDesign:HintAssist.Hint="Имя" Text="{Binding F12.FIO.Name}" />
+                                    <TextBox materialDesign:HintAssist.Hint="Отчество" Text="{Binding F12.FIO.Patronymic}" />
+                                    <TextBox materialDesign:HintAssist.Hint="Должность" Text="{Binding F12.Position}" />
+                                    <TextBox materialDesign:HintAssist.Hint="Звание" Text="{Binding F12.Rank}" />
+                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                        <CheckBox Style="{StaticResource MaterialDesignActionAccentCheckBox}" IsChecked="{Binding F12.Local}" />
+                                        <TextBlock Text="Местный житель" VerticalAlignment="Center" Padding="10,0,0,0" Width="471" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Личный номер военнослужащего (при наличии)" />
+                                    <TextBox Text="{Binding F12.IndividNumber,  UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Пол" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.sex}" SelectedValue="{Binding F12.Sex, UpdateSourceTrigger=PropertyChanged}" ErrorChanged="CBErrorHandler" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Дата рождения" />
+                                    <Border Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker SelectedDate="{Binding F12.Birthday, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Возраст на момент совершения преступления" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.ageWithinCrime}" SelectedValue="{Binding F12.Age, UpdateSourceTrigger=PropertyChanged}" ErrorChanged="CBErrorHandler" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Место рождения" />
+                                    <TextBox Text="{Binding F12.BirthPlace.Locality, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Населённый пункт" />
+                                    <TextBox Text="{Binding F12.BirthPlace.Area, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Район" />
+                                    <TextBox Text="{Binding F12.BirthPlace.Region, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Область, край, государство" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Место жительства" />
+                                    <TextBox Text="{Binding F12.LivePlace.Address, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Улица, квартира, дом" />
+                                    <TextBox Text="{Binding F12.LivePlace.Locality, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Населённый пункт" />
+                                    <TextBox Text="{Binding F12.LivePlace.Area, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Район" />
+                                    <TextBox Text="{Binding F12.LivePlace.Region, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Область, край, государство" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Кем воспитывался" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.upbringing}" SelectedValue="{Binding F12.Upbringing, UpdateSourceTrigger=PropertyChanged}" ErrorChanged="CBErrorHandler" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Семейное положение" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.familyStatus}" SelectedValue="{Binding F12.FamilyStatus, UpdateSourceTrigger=PropertyChanged}" ErrorChanged="CBErrorHandler" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Количество находящихся на иждивении детей (н/летних или учащихся)" />
+                                    <TextBox Text="{Binding F12.Children, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NumberConverter}, NotifyOnValidationError=True}" Validation.Error="TextBox_Error" KeyDown="IntTextValidate" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Информация о призыве на военную службу" />
+                                    <TextBox Text="{Binding F12.RVKinstitute, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="РВК/учебное заведение (для офицеров)" />
+                                    <TextBox Text="{Binding F12.InstancePlace, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Республика, край, область, Москва, С.-Петербург" />
+                                    <Border Style="{StaticResource DatePickerBorder}" materialDesign:HintAssist.Hint="Дата призыва/дата окончания учебного заведения (для офицеров)">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker SelectedDate="{Binding F12.CallDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Часть 2">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1.5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Образование" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.education}" SelectedValue="{Binding F12.Education, UpdateSourceTrigger=PropertyChanged}" ErrorChanged="CBErrorHandler" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Гражданство" />
+                                    <localControl:FiltredComboBox materialDesign:HintAssist.Hint="Гражданство" ItemsSource="{Binding data.citizenship}" SelectedValue="{Binding F12.Citizenship, UpdateSourceTrigger=PropertyChanged}" ErrorChanged="CBErrorHandler" />
+                                    <TextBox materialDesign:HintAssist.Hint="Страна" Text="{Binding F12.Country, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Национальность" />
+                                    <TextBox Text="{Binding F12.Nationality, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Социальное и должностное положения лица на момент совершения преступления" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.socialStatus}" SelectedValue="{Binding F12.SocialStatus, UpdateSourceTrigger=PropertyChanged}"
+                                                           materialDesign:HintAssist.Hint="Социальное положение" ErrorChanged="CBErrorHandler" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.officialStatus}" ErrorChanged="CBErrorHandler"
+                                                           SelectedValue="{Binding OfficialStatusToAdd.Num, UpdateSourceTrigger=PropertyChanged}"
+                                                           Text="{Binding OfficialStatusToAdd.Str, UpdateSourceTrigger=PropertyChanged}"
+                                                           materialDesign:HintAssist.Hint="Должностное положение"/>
+
+                                    <Grid Margin="0,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="Добавить" Command="{Binding AddToOfficialStatusList}" Grid.Column="1" />
+                                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0" Grid.Column="2" HorizontalAlignment="Right">
+                                            <TextBlock Text="Показать список" VerticalAlignment="Center"/>
+                                            <CheckBox x:Name="OfficialStatusShowCheckBox"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <StackPanel x:Name="OfficialStatusStack" Height="0">
+                                        <Border Background="Azure" BorderThickness="0">
+                                            <StackPanel>
+                                                <ListView x:Name="OfficialStatusList" ItemsSource="{Binding F12.OfficialStatus}" 
+                                                  SelectedItem="{Binding ItemToRemove, UpdateSourceTrigger=PropertyChanged}">
+                                                    <ListView.View>
+                                                        <GridView>
+                                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Str}" HeaderContainerStyle="{StaticResource GridView_Header_Invisible}"
+                                                                Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}, Path=ActualWidth}" />
+                                                        </GridView>
+                                                    </ListView.View>
+                                                </ListView>
+                                            </StackPanel>
+                                        </Border>
+                                        <Button Content="Удалить выбранный элемент" HorizontalAlignment="Center" Command="{Binding RemoveFromOfficialStatusList}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Вид и дата применения меры процессуального принуждения" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.coerciveMeasure}" SelectedValue="{Binding F12.CoersiveMeasure, UpdateSourceTrigger=PropertyChanged}"
+                                                           materialDesign:HintAssist.Hint="Вид применения меры процессуального принуждения" ErrorChanged="CBErrorHandler" />
+                                    <Border  Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker materialDesign:HintAssist.Hint="Дата применения меры процессуального принуждения"
+                                                    SelectedDate="{Binding F12.CoersiveMeasureDate, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding F12.CoersiveMeasure}" Value="31">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <StackPanel>
+                                    <TextBlock Text="Срок стражи/ареста/ запрета действий продлен" />
+                                    <TextBox materialDesign:HintAssist.Hint="На сколько месяцев" Text="{Binding F12.ArrestDuration, Converter={StaticResource NumberConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Border  Style="{StaticResource DatePickerBorder}">
+                                        <Border.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Width" Value="10" />
+                                            </Style>
+                                        </Border.Resources>
+                                        <DatePicker materialDesign:HintAssist.Hint="До:"
+                                                    SelectedDate="{Binding F12.ArrestTimeEnd, UpdateSourceTrigger=PropertyChanged}" />
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+
+                            <Border>
+                                <StackPanel>
+                                    <TextBlock Text="Преступления, совершённые лицом:" />
+                                    <localControl:FiltredComboBox materialDesign:HintAssist.Hint="Номер преступления" x:Name="Number" ItemsSource="{Binding CrimeNumbersList}"
+                                                           ErrorChanged="CBErrorHandler" SelectedIndex="{Binding CurrentCrimeNumber, UpdateSourceTrigger=PropertyChanged}"
+                                                           SelectedValue="{Binding CrimeToAdd.CrimeNumber, UpdateSourceTrigger=PropertyChanged}">
+                                        <localControl:FiltredComboBox.Style>
+                                            <Style TargetType="localControl:FiltredComboBox" BasedOn="{StaticResource FilterCBStyle}">
+                                                <Setter Property="Width" Value="500" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding F12.IsExported}" Value="True">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <TextBox Text="{Binding CrimeToAdd.CrimeNumber}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </localControl:FiltredComboBox.Style>
+                                    </localControl:FiltredComboBox>
+                                    <TextBlock Text="Квалификация преступления" />
+                                    <TextBox materialDesign:HintAssist.Hint="Статья"  Text="{Binding CrimeToAdd.Qualification.Article, Converter={StaticResource NumberConverter}, UpdateSourceTrigger=PropertyChanged}"  Validation.Error="TextBox_Error" KeyDown="IntTextValidate" />
+                                    <TextBox materialDesign:HintAssist.Hint="Знак"  Text="{Binding CrimeToAdd.Qualification.Sign, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox materialDesign:HintAssist.Hint="Часть"  Text="{Binding CrimeToAdd.Qualification.Part, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox materialDesign:HintAssist.Hint="Пункты" Text="{Binding CrimeToAdd.Qualification.Paragraph, UpdateSourceTrigger=PropertyChanged}" />
+                                    <localControl:FiltredComboBox  ItemsSource="{Binding data.complicityKind}" ErrorChanged="CBErrorHandler"
+                                                            SelectedValue="{Binding CrimeToAdd.Complicity, UpdateSourceTrigger=PropertyChanged}"
+                                                           materialDesign:HintAssist.Hint="Вид соучастия" Margin="0,30,0,0" />
+                                    <localControl:FiltredComboBox ItemsSource="{Binding data.condition}" ErrorChanged="CBErrorHandler"
+                                                           materialDesign:HintAssist.Hint="В состоянии:" SelectedValue="{Binding CrimeToAdd.Situation, UpdateSourceTrigger=PropertyChanged}" />
+
+
+                                    <Grid Margin="0,10,0,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Content="Добавить" Command="{Binding AddToCrimeList}" Grid.Column="1"/>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                                            <TextBlock Text="Показать список"/>
+                                            <CheckBox x:Name="CrimeCheckBox"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <StackPanel x:Name="CrimeStack" Height="0">
+                                        <Border Background="White" BorderThickness="0">
+                                            <ListView x:Name="CrimeList" ItemsSource="{Binding F12.Crimes}" SelectedItem="{Binding ItemToRemove, UpdateSourceTrigger=PropertyChanged}">
+                                                <ListView.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Width" Value="Auto" />
+                                                    </Style>
+                                                </ListView.Resources>
+                                                <ListView.View>
+                                                    <GridView>
+                                                        <GridViewColumn DisplayMemberBinding="{Binding Path=CrimeNumber}" Header="Номер&#10;преступления" Width="auto" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Qualification, Converter={StaticResource QualificationConverter}}" Header="Квалификация" Width="auto" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Complicity, Converter={StaticResource KeyValueConverter}, ConverterParameter=complicityKind}"
+                                                            Header="Вид&#10;соучастия" Width="auto" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Situation, Converter={StaticResource KeyValueConverter}, ConverterParameter=condition}"
+                                                            Header="Состояние" Width="auto" />
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                        </Border>
+                                        <Button Content="Удалить выбранный элемент" Command="{Binding RemoveFromCrimeList}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Информация о ведущих расследование лицах">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Данные лица, ведущего расследование уголовного дела (разрешивщего материалы) и дата заполнения карточки:" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Positions}" SelectedValue="{Binding RegData.User.Position, UpdateSourceTrigger=PropertyChanged}" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.User.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.User.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <RadioButton Style="{StaticResource SCRadioButton}" GroupName="Director" Content="Руководитель следственного отдела" IsChecked="True" Margin="0,0,10,0"/>
+                                    <RadioButton Style="{StaticResource SCRadioButton}" GroupName="Director" Content="ВрИО руководителя следственного отдела" IsChecked="{Binding F12.DirectorIsTemporary, UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.VSOchef.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.VSOchef.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="Военный прокурор:" />
+                                <localControl:FiltredComboBox ItemsSource="{Binding data.Ranks}" SelectedValue="{Binding RegData.MilitaryProsecutor.Rank, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding RegData.MilitaryProsecutor.FIO, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button x:Name="SaveButton" Content="Сохранить" Command="{Binding SaveCard}" />
+            <Button Content="Изменить"  Command="{Binding ChangeCard}" />
+            <Button x:Name="ViewDocBut" Content="Просмотреть документ" Click="Button_Click_ViewDocument" IsEnabled="True" />
+            <Button Content="Экспорт" Command="{Binding ExportCard}" />
+            <Button Content="Отправить на сервер" Command="{Binding SendToServer}" />
+        </StackPanel>
+    </Grid>
+</Window>

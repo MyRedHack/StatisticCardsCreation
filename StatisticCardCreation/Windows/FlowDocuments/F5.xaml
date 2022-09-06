@@ -1,0 +1,763 @@
+﻿<Window x:Class="StatCardApp.DocumentViewerF5"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:localControl="clr-namespace:StatCardApp.DerivedControls"
+        xmlns:localConverter="clr-namespace:StatCardApp.Convertors"
+        mc:Ignorable="d"
+        Title="Ф-5 Документ" Height="70 cm" Width="850" WindowState="Maximized">
+    <Window.Resources>
+        <localConverter:KeyValueConverter x:Key="KeyValueConverter" />
+        <localConverter:DateConverter x:Key="DateConverter" />
+        <localConverter:ValueToSizeConverter x:Key="ValueToSizeConverter" />
+        <localConverter:LocalFieldConverter x:Key="LocalFieldConverter" />
+        <localConverter:LivePlaceConverter x:Key="LivePlaceConverter" />
+        <localConverter:QualificationConverter x:Key="QualificationConverter"/>
+        <localControl:AutoSizeTextBox x:Key="AutoSizeTextBox" />
+
+        <Style x:Key="mainTable" TargetType="TableCell">
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderBrush" Value="Black" />
+        </Style>
+
+        <Style TargetType="TableCell">
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="0, 0.5, 0.5, 0" />
+            <Setter Property="Padding" Value="3,0,0,0" />
+        </Style>
+
+        <Style TargetType="Table">
+            <Setter Property="CellSpacing" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style TargetType="Paragraph">
+            <Setter Property="FontSize" Value="0.097 in" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="TextAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style x:Key="ValueStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="0.17 in" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="LineStackingStrategy" Value="MaxHeight" />
+            <Setter Property="LineHeight" Value="12" />
+            <Setter Property="FontFamily" Value="Times New Roman" />
+            <Setter Property="Margin" Value="0,2,8,2" />
+        </Style>
+        <Style TargetType="DockPanel">
+            <Setter Property="Width" Value="680" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+            <Setter Property="LineHeight" Value="0.1 in" />
+            <Setter Property="Margin" Value="2,2,0,0" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        
+    </Window.Resources>
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="Black" />
+                <Setter Property="BorderThickness" Value="0,0,0,1" />
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <FlowDocumentScrollViewer Name="FlowDoc" Width="835"  HorizontalAlignment="Center" Grid.Row="0">
+            <FlowDocument ColumnWidth="23 cm" Name ="docViewer">
+                <!--#region Заголовок-->
+
+                <Paragraph TextAlignment="Center"  FontSize="0.2 in" FontFamily="Times New Roman" Margin="0,0,0,0">
+                    <StackPanel Orientation="Horizontal"  Height="58" HorizontalAlignment="Left" Width="743">
+                        <TextBlock LineStackingStrategy="MaxHeight" TextAlignment="Left" Width="57" FontSize="0.138 in" FontWeight="Bold" FontFamily="Arial">Ф-5</TextBlock>
+                        <StackPanel Width="573">
+                            <TextBlock LineStackingStrategy="MaxHeight" FontWeight="Bold" >Статистическая карточка</TextBlock>
+                            <TextBlock LineStackingStrategy="MaxHeight" LineHeight="14" FontSize="0.1805 in" Margin="0, 0, 0, 5" >на пострадавшего</TextBlock>
+                        </StackPanel>
+                        <StackPanel Width="108">
+                            <TextBlock  FontSize="0.083 in">П р  и л о ж е н и е 8</TextBlock>
+                            <TextBlock LineStackingStrategy="MaxHeight" FontSize="0.416 in" FontWeight="Bold">Ф-5</TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </Paragraph>
+                <!--#endregion-->
+
+                <!--#region Таблица "учесть"-->
+
+                <Table BorderBrush="White" BorderThickness="0">
+                    <Table.Columns>
+                        <TableColumn Width="0.7*" />
+                        <TableColumn Width="14*" />
+                        <TableColumn Width="1.3*" />
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell Padding="4,4,0,0" BorderThickness="0">
+                                <Paragraph FontSize="0.1388 in" FontFamily="Arial">
+                                    <TextBlock>1</TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                            <!--#region Главная таблица-->
+                            <TableCell Style="{StaticResource mainTable}">
+                                <Paragraph FontFamily="Arial">
+                                    <DockPanel>
+                                        <TextBlock Margin="5,5,5,5">Учесть(1), снять (3), изменить (9)</TextBlock>
+                                        <TextBlock Text="{Binding F5.Accounting}" Style="{StaticResource ValueStyle}" />
+                                    </DockPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <!--#endregion-->
+                            <TableCell  BorderThickness="0">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <TextBlock Margin="0,7,0,0">1</TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <!--#endregion-->
+
+                <Table>
+                    <Table.Columns>
+                        <TableColumn Width="0.7*" />
+                        <TableColumn Width="14*" />
+                        <TableColumn Width="1.3*" />
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <!--=============== ТАБЛИЦА РАЗДЕЛА 1 ===================-->
+                        <TableRow>
+                            <TableCell BorderThickness="0" />
+                            <TableCell BorderThickness="0" LineHeight="18" LineStackingStrategy="BlockLineHeight">
+                                <Paragraph>
+                                    <TextBlock FontSize="0.138 in" FontFamily="Times New Roman">
+                                        <Bold FontSize="0.166 in">Раздел 1.</Bold> Заполняется работником по ведению учетно-регистрационной работы
+                                    </TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Height="26">1.1</TextBlock>
+                                        <TextBlock Height="23">1.2</TextBlock>
+                                        <TextBlock Height="25">1.3</TextBlock>
+                                        <TextBlock Height="36">1.4</TextBlock>
+                                        <TextBlock Height="21">1.5</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <!--Главна таблица-->
+                            <TableCell Style="{StaticResource mainTable}">
+                                <Paragraph>
+                                    <StackPanel Orientation="Vertical">
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="155">Номер уголовного  <Bold>Д</Bold>ела (<Bold>М</Bold>атериала, Информации)</TextBlock>
+                                                <TextBlock FontFamily="Times New Roman" Width="210">1 – дело,  2 – материал,   3 – частное обвинение,
+                                                    4 – выделенное из другого дела в отношении одного из соучастников, 5 - информация</TextBlock>
+                                                <TextBlock TextAlignment="Right" LineStackingStrategy="MaxHeight" Text="{Binding FullCaseNumber}" FontSize="0.25 in" FontFamily="Times New Roman" Margin="0,0,5,0"/>
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Width="230">Место службы пострадавшего:</TextBlock>
+                                                <TextBlock Width="205">УСЛОВНОЕ наименование воинской части (соединения), учреждения, организации</TextBlock>
+                                                <Border BorderThickness="1,0,0,0">
+                                                    <localControl:AutoSizeTextBox Text="{Binding F5.MilitaryUnit}" Height="19"/>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Text="Порядковый номер пострадавшего лица в уголовном деле " />
+                                                <StackPanel HorizontalAlignment="Right" Width="120">
+                                                    <TextBlock Text="{Binding F5.VictimNumber, Converter={StaticResource ValueToSizeConverter}, ConverterParameter='3'}" Style="{StaticResource ValueStyle}" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </Border>
+                                        <Border BorderThickness="0">
+                                            <DockPanel>
+                                                <TextBlock Text="Дата направления карточки прокурору " />
+                                                <StackPanel HorizontalAlignment="Right" Width="97">
+                                                    <TextBlock Text="число     месяц     год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding F5.TransCardDate, Converter={StaticResource DateConverter}, ConverterParameter=ShortYear}" Style="{StaticResource ValueStyle}" FontWeight="Normal" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock><Bold>Дата учета лица в ИПК «Преступность» </Bold></TextBlock>
+                                                <StackPanel HorizontalAlignment="Right" Width="97">
+                                                    <TextBlock Text="число     месяц     год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <Image Source="/Resources/IPK.jpg" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <!--////////////////////////////-->
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Height="27">1.1</TextBlock>
+                                        <TextBlock Height="23">1.2</TextBlock>
+                                        <TextBlock Height="25">1.3</TextBlock>
+                                        <TextBlock Height="36">1.4</TextBlock>
+                                        <TextBlock Height="21">1.5</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+
+                <Table>
+                    <Table.Columns>
+                        <TableColumn Width="0.7*" />
+                        <TableColumn Width="14*" />
+                        <TableColumn Width="1.3*" />
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <!--=============== ТАБЛИЦА РАЗДЕЛА 2 ПЕРВАЯ ===================-->
+                        <TableRow>
+                            <TableCell BorderThickness="0" />
+                            <TableCell BorderThickness="0" LineHeight="18" LineStackingStrategy="BlockLineHeight">
+                                <Paragraph>
+                                    <TextBlock FontSize="0.138 in" FontFamily="Times New Roman">
+                                        <Bold FontSize="0.166 in">Раздел 2.</Bold> Заполняется лицом, ведущим расследование уголовного дела или разрешившим материал
+                                    </TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.148 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0" Height="640">
+                                        <TextBlock Height="{Binding ElementName=p2_1, Path=ActualHeight}">2.1</TextBlock>
+                                        <TextBlock Height="56">2.2</TextBlock>
+                                        <TextBlock Height="28">2.3</TextBlock>
+                                        <TextBlock Height="56">2.4</TextBlock>
+                                        <TextBlock Height="145">2.5</TextBlock>
+                                        <TextBlock Height="25">2.6</TextBlock>
+                                        <TextBlock Height="54">2.7</TextBlock>
+                                        <TextBlock Height="62">2.8</TextBlock>
+                                        <TextBlock Height="25">2.9</TextBlock>
+                                        <TextBlock Height="84">2.10</TextBlock>
+                                        <TextBlock Height="57">2.11</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <!--Главна таблица-->
+                            <TableCell Style="{StaticResource mainTable}">
+                                <Paragraph>
+                                    <StackPanel>
+                                        <DockPanel x:Name="p2_1" >
+                                            <Border BorderThickness="0.5" Margin="0.5" Width="230">
+                                                <StackPanel>
+                                                    <TextBlock FontFamily="Times New Roman" Text="Фамилия:" HorizontalAlignment="Center" />
+                                                    <localControl:AutoSizeTextBox FontWeight="Normal" Height="19"
+                                                               Text="{Binding F5.FIO.Surname}" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderThickness="0.5" Margin="0.5" Width="230">
+                                                <StackPanel>
+                                                    <TextBlock FontFamily="Times New Roman" Text="Имя:" HorizontalAlignment="Center" />
+                                                    <localControl:AutoSizeTextBox FontWeight="Normal" Height="19"
+                                                               Text="{Binding F5.FIO.Name}" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderThickness="0.5" Margin="0.5" Width="220">
+                                                <StackPanel>
+                                                    <TextBlock FontFamily="Times New Roman" Text="Отчество:" HorizontalAlignment="Center" />
+                                                    <localControl:AutoSizeTextBox FontWeight="Normal" Height="19"
+                                                               Text="{Binding F5.FIO.Patronymic}" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Border BorderThickness="0.5" Margin="0.5" Width="356">
+                                                <StackPanel HorizontalAlignment="Left">
+                                                    <TextBlock FontFamily="Times New Roman" Text="а) Должность (только для военнослужащих и служащих в/ч):" HorizontalAlignment="Center" />
+                                                    <localControl:AutoSizeTextBox FontWeight="Normal" Height="19"
+                                                               Text="{Binding F5.Position}" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderThickness="0.5" Margin="0.5" Width="178">
+                                                <StackPanel>
+                                                    <TextBlock FontFamily="Times New Roman" Text="б) Звание (для военнослужащих):" HorizontalAlignment="Center" />
+                                                    <localControl:AutoSizeTextBox FontWeight="Normal" Height="19"
+                                                               Text="{Binding F5.Rank}" HorizontalAlignment="Center" />
+                                                </StackPanel>
+                                            </Border>
+                                            <Border BorderThickness="0.5" Margin="0.5" Width="142">
+                                                <DockPanel Margin="0,0,-4,0" Width="Auto">
+                                                    <TextBlock FontFamily="Times New Roman" HorizontalAlignment="Center" Width="117">Местный житель <Italic FontSize="0.076 in">(для гр. лиц, совершивших преступление по месту жительства)</Italic> (50)</TextBlock>
+                                                    <TextBlock Text="{Binding F5.Local, Converter={StaticResource LocalFieldConverter}}" Style="{StaticResource ValueStyle}" />
+                                                </DockPanel>
+                                            </Border>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Border BorderThickness="0,1,0,1">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Width="525"><Bold>Личный номер</Bold> военнослужащего (при наличии)</TextBlock>
+                                                    <Border BorderThickness="1,0,0,0" Width="154">
+                                                        <Border BorderThickness="1,0,0,1" Margin="1,0,0,1">
+                                                            <TextBlock Text="{Binding F5.IndividNumber}" Style="{StaticResource ValueStyle}" FontWeight="Normal" />
+                                                        </Border>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock><Bold>Пол:</Bold> мужской (1), женский (2)</TextBlock>
+                                                <TextBlock Text="{Binding F5.Sex}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock VerticalAlignment="Center">а) <Bold>Дата рождения</Bold></TextBlock>
+                                                <StackPanel HorizontalAlignment="Right" Width="97">
+                                                    <TextBlock Text="число     месяц     год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding F5.Birthday, Converter={StaticResource DateConverter}, ConverterParameter=ShortYear}" Style="{StaticResource ValueStyle}" FontWeight="Normal" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="621">б) <Bold>Возраст</Bold> на момент совершения преступления: до 14 лет (1), 14-15 лет (2), 16-17 лет (3), 18-24 года (4), 25-29 лет (5),
+                                                        30-39 лет (6), 40-49 лет (7), 50-59 (8) 60 лет и старше (9)</TextBlock>
+                                                <TextBlock Text="{Binding F5.Age}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <DockPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel>
+                                                    <TextBlock><Bold>Место рождения:</Bold></TextBlock>
+                                                    <TextBlock Height="20">а) населенный пункт</TextBlock>
+                                                    <TextBlock Height="25">б) район</TextBlock>
+                                                    <TextBlock>в) область, край, государство</TextBlock>
+                                                </StackPanel>
+                                                <Border BorderThickness="1,0,0,0">
+                                                    <Border BorderThickness="1,1,0,1" Margin="1">
+                                                        <StackPanel Width="549">
+                                                            <Border>
+                                                                <localControl:AutoSizeTextBox Text="{Binding F5.BirthPlace.Locality}"  HorizontalAlignment="Left" Padding="4,0,0,0" Height="19"/>
+                                                            </Border>
+                                                            <Border>
+                                                                <localControl:AutoSizeTextBox Text="{Binding F5.BirthPlace.Area}"  HorizontalAlignment="Left" Padding="4,0,0,0" Height="19"/>
+                                                            </Border>
+                                                            <Border BorderThickness="0">
+                                                                <localControl:AutoSizeTextBox Text="{Binding F5.BirthPlace.Region}" HorizontalAlignment="Left" Padding="4,0,0,0" Height="19"/>
+                                                            </Border>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Border>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <DockPanel Height="80">
+                                            <Border BorderThickness="0,2,0,1">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <StackPanel>
+                                                        <TextBlock><Bold>Место жительства:</Bold></TextBlock>
+                                                        <TextBlock Height="18">г) область, край, государство</TextBlock>
+                                                        <TextBlock Height="24">д) населённый пункт, район</TextBlock>
+                                                        <TextBlock Height="24">е) улица, квартира, дом</TextBlock>
+                                                    </StackPanel>
+                                                    <Border BorderThickness="1,0,0,0">
+                                                        <Border BorderThickness="1,1,0,1" Margin="1">
+                                                            <StackPanel Width="549">
+                                                                <Border>
+                                                                    <localControl:AutoSizeTextBox Text="{Binding F5.LivePlace.Region}"  HorizontalAlignment="Left" Padding="4,0,0,0" Height="19"/>
+                                                                </Border>
+                                                                <Border>
+                                                                    <localControl:AutoSizeTextBox  HorizontalAlignment="Left" Padding="4,0,0,0" Height="19">
+                                                                        <localControl:AutoSizeTextBox.Text>
+                                                                            <MultiBinding Converter="{StaticResource LivePlaceConverter}">
+                                                                                <Binding Path="F5.LivePlace.Locality" />
+                                                                                <Binding Path="F5.LivePlace.Area" />
+                                                                            </MultiBinding>
+                                                                        </localControl:AutoSizeTextBox.Text>
+                                                                    </localControl:AutoSizeTextBox>
+                                                                </Border>
+                                                                <Border>
+                                                                    <localControl:AutoSizeTextBox Text="{Binding F5.LivePlace.Address}" HorizontalAlignment="Left" Padding="4,0,0,0" Height="19"/>
+                                                                </Border>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="621"><Bold>Кем воспитывался:</Bold> двумя родителями (1), матерью (2), отцом (3), сирота (4), без попечения родителей (5)</TextBlock>
+                                                <TextBlock Text="{Binding F5.Upbringing}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="621"><Bold>Семейное положение:</Bold> холост (не замужем) (1), женат (замужем) (2)</TextBlock>
+                                                <TextBlock Text="{Binding F5.FamilyStatus}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="621">количество находящихся на иждивении детей (н/летних или учащихся)</TextBlock>
+                                                <TextBlock Text="{Binding F5.Children}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <DockPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel Width="172">
+                                                    <TextBlock><Bold>Каким РВК призван / какое учебное заведение закончил</Bold> (для офицеров): а)  город, район / название
+                                                    </TextBlock>
+                                                    <Border BorderThickness="0,1,0,0">
+                                                        <TextBlock>б) республика, край, область, Москва, С.-Петербург
+                                                        </TextBlock>
+                                                    </Border>
+                                                </StackPanel>
+                                                <Border BorderThickness="1,0,0,0" Width="509">
+                                                    <Border BorderThickness="1,1,0,1" Margin="1">
+                                                        <StackPanel>
+                                                            <Border Height="31">
+                                                                <localControl:AutoSizeTextBox Text="{Binding F5.RVKinstitute}" HorizontalAlignment="Left" Padding="4,0,0,0" Height="24"/>
+                                                            </Border>
+                                                            <localControl:AutoSizeTextBox Text="{Binding F5.InstancePlace}"  HorizontalAlignment="Left" Padding="4,0,0,0" Height="19"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Border>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock VerticalAlignment="Center"><Bold>Дата призыва</Bold> / для офицеров – <Bold>дата окончания учебного заведения</Bold></TextBlock>
+                                                <StackPanel HorizontalAlignment="Right" Width="97">
+                                                    <TextBlock Text="число     месяц     год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding F5.CallDate, Converter={StaticResource DateConverter}, ConverterParameter=ShortYear}" Style="{StaticResource ValueStyle}" FontWeight="Normal" />
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="621"><Bold>Образование:</Bold> высшее профессиональное (1), среднее профессиональное (2), начальное профессиональное (8),
+                                                        среднее (полное) общее (3), основное среднее (4), начальное общее (5), дошкольное (6), без образования (7)</TextBlock>
+                                                <TextBlock Text="{Binding F5.Education}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <DockPanel>
+                                            <Border>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Width="389"><Bold>Гражданство:</Bold> гражданин России (1), иностранный гражданин (2), лицо без гражданства (3),
+                                                        гражданин стран СНГ и Грузии (4), гражданин стран Прибалтики (5), гражданин РФ, проживающий в СНГ или Прибалтике (6)</TextBlock>
+                                                    <TextBlock Text="{Binding F5.Citizenship}" Style="{StaticResource ValueStyle}" />
+                                                    <Border BorderThickness="1,0,0,0">
+                                                        <localControl:AutoSizeTextBox Text="{Binding F5.Country}" Height="19"/>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                        <DockPanel>
+                                            <Border>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Width="184"><Bold>Национальность:</Bold></TextBlock>
+                                                    <Border BorderThickness="1,0,0,0" Width="497">
+                                                        <Border BorderThickness="1,1,0,1" Margin="1">
+                                                            <localControl:AutoSizeTextBox HorizontalAlignment="Left" Text="{Binding F5.Nationality}" Margin="4,2,0,2" Height="19"/>
+                                                        </Border>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                        <TextBlock HorizontalAlignment="Center">СОЦИАЛЬНОЕ И ДОЛЖНОСТНОЕ ПОЛОЖЕНИЕ ЛИЦА НА МОМЕНТ СОВЕРШЕНИЯ ПРЕСТУПЛЕНИЯ</TextBlock>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="623" ><Bold>Социальное положение:</Bold> <LineBreak />
+                                                категория службы: военнослужащий по контракту (01), военнослужащий по призыву (02), военнообязанный запаса, в период сборов (03), государственный служащий в/части, учреждения (06),  иной гражданский персонал в/ч (04), военнослужащий - иностранец (05);
+                                                гражданское лицо: депутат (10), государственный служащий (11), наемный рабочий (12), служащий (13), служитель культа (14), учащийся (21), студент (22), беременная (23), в отпуске по уходу за ребенком  (24), пенсионер по старости (31), ин-валид 1-2 группы  (32), лицо, находящееся на социальном обеспечении (33), иждивенец (34), безработный (35), лицо без определенного места жительства и постоянного источника дохода (36), лицо без определенного источника доходов  (37), собственник предприятия (41), совладелец на паях коллективной собственности (42), рантье (43), индивидуальный пред-приниматель (44), фермер (45), представитель творческой интеллигенции (46), самозанятый (47);
+                                                 мигрант (60), беженец (61), незаконный мигрант (62), иное (90)
+                                                </TextBlock>
+                                                <TextBlock Text="{Binding F5.SocialStatus}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Height="36">2.1.<LineBreak/>а-в</TextBlock>
+                                        <TextBlock Height="29">2.2.<LineBreak/>а-б</TextBlock>
+                                        <TextBlock Height="26">2.2.в</TextBlock>
+                                        <TextBlock Height="25">2.3</TextBlock>
+                                        <TextBlock Height="28">2.4.а</TextBlock>
+                                        <TextBlock Height="25">2.4.б</TextBlock>
+                                        <TextBlock Height="25">2.5.а</TextBlock>
+                                        <TextBlock Height="20">2.5.б</TextBlock>
+                                        <TextBlock Height="27">2.5.в</TextBlock>
+                                        <TextBlock Height="24">2.5.г</TextBlock>
+                                        <TextBlock Height="46">2.5.<LineBreak/>д-е</TextBlock>
+                                        <TextBlock Height="24">2.6</TextBlock>
+                                        <TextBlock Height="23">2.7.а</TextBlock>
+                                        <TextBlock Height="26">2.7.б</TextBlock>
+                                        <TextBlock Height="26">2.8.а</TextBlock>
+                                        <TextBlock Height="29">2.8.б</TextBlock>
+                                        <TextBlock Height="28">2.8.в</TextBlock>
+                                        <TextBlock Height="25">2.9</TextBlock>
+                                        <TextBlock Height="29">2.10.а</TextBlock>
+                                        <TextBlock Height="36">2.10.в</TextBlock>
+                                        <TextBlock Height="36">2.11</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+
+                        <TableRow>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.148 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0" Height="443">
+                                        <TextBlock Height="104">2.12</TextBlock>
+                                        <TextBlock Height="205">3.1</TextBlock>
+                                        <TextBlock Height="42">3.2</TextBlock>
+                                        <TextBlock Height="36">3.3</TextBlock>
+                                        <TextBlock Height="56">3.5</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell Style="{StaticResource mainTable}" BorderThickness="2,0,2,2">
+                                <Paragraph>
+                                    <StackPanel>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="626" ><Bold>Должностное положение:</Bold><LineBreak />
+                                                        - командир части (01), зам. командира части (10), начальник службы (02), командир батальона (03),  командир ротного звена (04), командир взводного звена (05), младший командир (06), штабной (аппаратный) работник (07), на должности высшего офицерского состава (08), на иной офицерской должности (09);
+                                                        - финансово-бухгалтерский работник (11), материально-ответственное лицо (12), медицинский работник (13), работник веще-вой службы (органа) (15), работник продовольственной службы (органа)  (16), работник службы (органа)  ГСМ (17), работник другой довольствующей службы (органа) (19);
+                                                        - курсант (51), слушатель (52);
+                                                        - дознаватель (20), прокурорский работник (21), следователь (22), работник ОВД (23), иного правоохранительного органа (24), судья (25), адвокат (26), нотариус (27), член избирательной комиссии (29), работник органов государственного управле-ния (31), работник органов местного самоуправления (32), работник кредитно-финансовой и банковской системы (33), ра-ботник сельского хозяйства (34), журналист (35), преподаватель (37);
+                                                        - руководитель организации (41), подразделения (42), технический и обслуживающий персонал (43), водитель (44);
+                                                        -  за штатом (90).
+                                                </TextBlock>
+                                                <ListBox ItemsSource="{Binding F5.OfficialStatus}" Margin="0,5,0,0" HorizontalAlignment="Right" FontSize="0.166 in">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Path=Num, Converter={StaticResource ValueToSizeConverter}, ConverterParameter=2}"
+                                                                               LineHeight="6" LineStackingStrategy="BlockLineHeight" />
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
+                                            </DockPanel>
+                                        </Border>
+                                        <DockPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <StackPanel Width="247" Height="215">
+                                                    <TextBlock Margin="2,2,61,0" Height="40">Квалификация преступлений, от которых пострадало лицо, состояние потерпевшего и характер последствий:</TextBlock>
+                                                    <TextBlock xml:space="preserve">б)  - <Bold>в состоянии:</Bold>
+        беспомощном (1);
+        <Underline>опьянения</Underline>   алкогольного (05), наркотического (07),
+            токсического (08);
+        абстиненции (09), аффекта (10), психического расстройства
+            (11), ином болезненном (12)
+                                                    </TextBlock>
+                                                    <TextBlock xml:space="preserve">в) Характер последствий:
+        - гибель (1);
+        - тяжкий вред здоровью (2), вред здоровью
+            средней тяжести (3), легкий вред здоровью (4),
+            побои (5);
+        - моральный вред (7);
+        - имущественный вред (8)
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <Border BorderBrush="Black" BorderThickness="0.51">
+                                                    <DataGrid ItemsSource="{Binding F5.VictimCrimes}" CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+                                                      ColumnHeaderStyle="{StaticResource Header_Content_DataGrid_Centering}" GridLinesVisibility="None"
+                                                      ColumnHeaderHeight="20"  FontSize="0.097 in">
+                                                        <DataGrid.Columns>
+                                                            <DataGridTextColumn Binding="{Binding Path=CrimeNumber, Converter={StaticResource ValueToSizeConverter}, ConverterParameter='3'}" Width="80" Header="   а) Номер&#10;преступления " />
+                                                            <DataGridTextColumn Width="125" Header="б) Квалификация преступлений">
+                                                                <DataGridTextColumn.CellStyle>
+                                                                    <Style TargetType="DataGridCell">
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate>
+                                                                                    <Border BorderThickness="1" BorderBrush="Black">
+                                                                                        <TextBlock Text="{Binding Path=Qualification, Converter={StaticResource QualificationConverter}}" HorizontalAlignment="Center" />
+                                                                                    </Border>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Style>
+                                                                </DataGridTextColumn.CellStyle>
+                                                            </DataGridTextColumn>
+                                                            <DataGridTextColumn Binding="{Binding Path=HelplessCondition}" Width="80" Header="в) Беспомощное&#10;состояние" />
+                                                            <DataGridTextColumn Binding="{Binding Path=Condition}" Width="70" Header="г) Состояние" />
+                                                            <DataGridTextColumn Binding="{Binding Path=ConsequencesNature}" Width="80" Header="д) Последствия" />
+                                                        </DataGrid.Columns>
+                                                    </DataGrid>
+                                                </Border>
+                                            </StackPanel>
+                                        </DockPanel>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="514">Преступление спровоцировано неправомерными действиями потерпевшего и связано: <LineBreak />
+- с нарушением им уставных правил взаимоотношений по отношении к лицу, совершившему преступление (1), <LineBreak />
+- с совершением потерпевшим другого оскорбительного действия (2), <LineBreak />
+- иных действий (указать каких) (3)
+                                                </TextBlock>
+                                                <TextBlock HorizontalAlignment="Right" Text="{Binding F5.ProvocativeActions}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <DockPanel>
+                                                <TextBlock Width="535">Потерпевший по отношению к совершившему преступление являлся:  отцом или матерью (01),
+                                                    сыном или дочерью (02), братом или сестрой (03), иным родственником (04), мужем или женой (05), сожителем (06),
+                                                    знакомым (07), незнакомым (09), опекуном (11), попечителем (12), воспитанником детдома (13),
+                                                    воспитанником образовательного учреждения (14),
+начальником (20), подчиненным (21), равным, одного периода службы (22), «молодым» (23), старослужащим (24)
+                                                </TextBlock>
+                                                <TextBlock HorizontalAlignment="Right" Text="{Binding F5.CrimePersonsRelation}" Style="{StaticResource ValueStyle}" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="145">
+                                                    <TextBlock Text="Данные лица, ведущего расследование уголовного дела, дата запол-нения карточки и передачи в канцелярию для учета:" TextAlignment="Justify" />
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="110">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Должность:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding RegData.User.Position, Converter={StaticResource KeyValueConverter}, ConverterParameter=Positions}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="80">
+                                                    <StackPanel>
+                                                        <TextBlock Text="звание:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding RegData.User.Rank, Converter={StaticResource KeyValueConverter}, ConverterParameter=Ranks}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="148">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Фамилия, инициалы:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding RegData.User.FIO}" FontSize="0.138 in" FontFamily="Times New Roman" HorizontalAlignment="Center" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="84">
+                                                    <TextBlock Text="подпись:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="113">
+                                                    <StackPanel>
+                                                        <TextBlock Text="число месяц год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding Today}" FontSize="0.152 in" HorizontalAlignment="Center" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="145">
+                                                    <localControl:AutoSizeTextBox Text="Руководитель ВСО" FontFamily="Times New Roman" FontSize="0.138 in" VerticalAlignment="Center" HorizontalAlignment="Center" Height="25" VerticalContentAlignment="Center">
+                                                        <localControl:AutoSizeTextBox.Style>
+                                                            <Style TargetType="{x:Type localControl:AutoSizeTextBox}">
+                                                                <Setter Property="Text" Value="Руководитель следственного органа"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding F5.DirectorIsTemporary}" Value="True">
+                                                                        <Setter Property="Text" Value="ВрИО руководителя следственного органа"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </localControl:AutoSizeTextBox.Style>
+                                                    </localControl:AutoSizeTextBox>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="97">
+                                                    <StackPanel>
+                                                        <TextBlock Text="звание:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding RegData.VSOchef.Rank, Converter={StaticResource KeyValueConverter}, ConverterParameter=Ranks}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="209">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Фамилия, инициалы:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding RegData.VSOchef.FIO}"  HorizontalAlignment="Center" FontSize="0.138 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="116">
+                                                    <TextBlock Text="подпись:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="113">
+                                                    <StackPanel>
+                                                        <TextBlock Text="число месяц год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding Today}"  HorizontalAlignment="Center" FontSize="0.152 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                        <Border>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="145">
+                                                    <TextBlock Text="Военный прокурор" FontFamily="Times New Roman" FontSize="0.138 in" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="97">
+                                                    <StackPanel>
+                                                        <TextBlock Text="звание:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding RegData.MilitaryProsecutor.Rank, Converter={StaticResource KeyValueConverter}, ConverterParameter=Ranks}" HorizontalAlignment="Center" FontSize="0.125 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="209">
+                                                    <StackPanel>
+                                                        <TextBlock Text="Фамилия, инициалы:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding RegData.MilitaryProsecutor.FIO}"  HorizontalAlignment="Center" FontSize="0.138 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="116">
+                                                    <TextBlock Text="подпись:" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                </Border>
+                                                <Border BorderBrush="Black" BorderThickness="0,0,0.5,0" Width="115">
+                                                    <StackPanel>
+                                                        <TextBlock Text="число месяц год" HorizontalAlignment="Center" FontSize="0.083 in" FontFamily="Times New Roman" />
+                                                        <TextBlock Text="{Binding Today}" HorizontalAlignment="Center" FontSize="0.152 in" FontFamily="Times New Roman" LineStackingStrategy="MaxHeight" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </StackPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderBrush="White">
+                                <Paragraph FontSize="0.1527 in" FontFamily="Times New Roman">
+                                    <StackPanel Margin="0,10,0,0">
+                                        <TextBlock Height="106">2.12</TextBlock>
+                                        <TextBlock Height="198">3.1<LineBreak/>.а-д</TextBlock>
+                                        <TextBlock Height="50">3.2</TextBlock>
+                                        <TextBlock Height="34">3.3</TextBlock>
+                                        <TextBlock Height="36">3.5.а</TextBlock>
+                                        <TextBlock Height="36">3.5.б</TextBlock>
+                                        <TextBlock Height="24">3.5.в</TextBlock>
+                                    </StackPanel>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Grid.Row="1">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                    <Setter Property="FontSize" Value="0.111 in" />
+                </Style>
+            </StackPanel.Resources>
+            <Button Content="Печать первой страницы" Height="30" Command="{Binding Commands.PrintFirstPage}" CommandParameter="{Binding ElementName=FlowDoc}"  Margin="10,0,10,0" />
+            <Button Content="Печать второй страницы"  Height="30" Command="{Binding Commands.PrintSecondPage}" CommandParameter="{Binding ElementName=FlowDoc}"  Margin="10,0,10,0" />
+            <Button Content="Полная печать"  Height="30" Command="{Binding Commands.PrintFullDocument}"  CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+            <Button Content="Настраиваемая печать" Height="30" Command="{Binding Commands.PrintWithDialog}"  CommandParameter="{Binding ElementName=FlowDoc}" Margin="10,0,10,0" />
+        </StackPanel>
+    </Grid>
+</Window>

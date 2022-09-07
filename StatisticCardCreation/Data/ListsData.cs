@@ -27,7 +27,7 @@ namespace StatCardApp
         #region Управления
         public static List<El> Managements { get; set; } = new List<El>()
         {
-            new El(7, "ВСО по ВО"),
+            new El(7, "ВСО по ЧО"),
         };
         #endregion
 

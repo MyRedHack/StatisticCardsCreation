@@ -11,5 +11,9 @@ namespace StatCardApp.Client
         public string Connection { get; set; }
         public string IPaddress { get; set; }
         public string Port { get; set; }
+        public string User { get; set;}
+        public string Password { get; set; }
+
+
     }
 }

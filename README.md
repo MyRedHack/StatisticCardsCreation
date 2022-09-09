@@ -1,2 +1,4 @@
 # StatisticCardsCreation
-Путь связи со мной через Telegram: @chernyshov3303
+The way to contact me via Telegram: @chernyshov3303
+
+
